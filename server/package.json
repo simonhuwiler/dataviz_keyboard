@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/simonhuwiler/dataviz_keyboard#readme",
   "dependencies": {
-    "node-hid": "^0.7.9"
+    "express": "^4.17.1",
+    "node-hid": "^0.7.9",
+    "nodemon": "^1.19.4"
   }
 }

@@ -1,6 +1,6 @@
 const consts = require('./consts.js');
 
-module.exports.hexToRgb = function(hex)
+function hexToRgb(hex)
 {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
@@ -10,6 +10,7 @@ module.exports.hexToRgb = function(hex)
   } : null;
 
 }
+module.exports.hexToRgb = hexToRgb;
 
 module.exports.buildColorBuffer = function(keylist)
 {
@@ -18,7 +19,7 @@ module.exports.buildColorBuffer = function(keylist)
   var colorbuffer = []
   for(let i = 0; i < consts.NUMKEYS * 3; i++)
   {
-    colorbuffer.push({x:2})
+    colorbuffer.push({})
   }
 
   //Fill List
@@ -39,7 +40,7 @@ module.exports.buildColorBuffer = function(keylist)
 module.exports.getKeys = function(color)
 {
   var keys = [];
-  const c = this.hexToRgb(color)
+  const c = hexToRgb(color)
 
   for(let i = 0; i < consts.NUMKEYS; i++)
   {
