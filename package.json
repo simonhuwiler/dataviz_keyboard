@@ -1,0 +1,26 @@
+{
+  "name": "dataviz_keyboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "node --nolazy --inspect-brk=9229 src\\index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonhuwiler/dataviz_keyboard.git"
+  },
+  "author": "Simon Huwiler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonhuwiler/dataviz_keyboard/issues"
+  },
+  "homepage": "https://github.com/simonhuwiler/dataviz_keyboard#readme",
+  "dependencies": {
+    "node-hid": "^0.7.9"
+  }
+}
