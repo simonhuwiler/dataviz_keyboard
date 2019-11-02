@@ -1,7 +1,7 @@
 var HID = require('node-hid');
 const initialization = require('./initialization.js');
 const colors = require('./colors.js');
-const animator = require('./animator.js');
+const colorizer = require('./colorizer.js');
 const consts = require('./consts.js')
 
 module.exports = class RoccatVulkan
@@ -9,8 +9,11 @@ module.exports = class RoccatVulkan
   constructor(options)
   {
     options = options ? options : {};
-
+    
     console.log("Initialize Vulcan")
+    
+    this.animateTimers = [];
+    this.currentColors = colors.getKeys('#000000');
 
     //All USB Devices
     const allDevices = HID.devices();
@@ -74,8 +77,84 @@ module.exports = class RoccatVulkan
   
   fillAll(color)
   {
-    var keys = colors.getKeys(color);
-    animator.sendColorsToKeyboard(this.ledDevice, keys);
+    this.currentColors = colors.getKeys(color);
+    colorizer.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+  }
+
+  updateKeys(keys, color)
+  {
+    for(let i in keys)
+    {
+      const key = keys[i];
+
+      if(!(key in consts.KEYMAPPER))
+      {
+        console.log("Key " + key + " not found in Keylist");
+        return;
+      }
+  
+      const id = consts.KEYMAPPER[key];
+  
+      if(typeof color === "string")
+      {
+        color = colors.hexToRgb(color);
+      }
+      else if(typeof color === "object")
+      {
+        color = color;
+      }
+      else
+      {
+        console.log("Wrong color. Bust me hex-string (#ffcc00) or objekct ({r: 255, g: 255, b:255}")
+      }
+      
+      this.currentColors[id] = color;
+    }
+
+    colorizer.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+  }
+
+  updateKey(key, color)
+  {
+    this.updateKeys([key], color);
+  }
+
+  animateKeys(keys, colorFrom, colorTo, duration)
+  {
+    const start = Date.now();
+    var rgbFrom = colors.hexToRgb(colorFrom);
+    var rgbTo = colors.hexToRgb(colorTo);
+    var rgbRunning = Object.assign({}, rgbFrom);
+
+    const rMax = rgbTo.r - rgbFrom.r;
+    const gMax = rgbTo.g - rgbFrom.g;
+    const bMax = rgbTo.b - rgbFrom.b;
+
+    const timer = setInterval(() => {
+
+      var runningTime = Date.now() - start;
+      runningTime = runningTime > duration ? duration : runningTime;
+
+      //Calculate new RGB-Value
+      const percentage = 100 / duration * runningTime;
+      rgbRunning.r = Math.round(rgbFrom.r + rMax / 100 * percentage);
+      rgbRunning.g = Math.round(rgbFrom.g + gMax / 100 * percentage);
+      rgbRunning.b = Math.round(rgbFrom.b + bMax / 100 * percentage);
+
+      //Send new Value
+      this.updateKeys(keys, rgbRunning)
+
+      //Clear Timer if duration ends
+      if(runningTime >= duration)
+      {
+        const t = this.animateTimers.find(e => e === timer)
+        console.log("f")
+        if(t)
+          clearInterval(t)
+      }
+        
+    }, consts.ANIMATIONINTERVAL);
+    this.animateTimers.push(timer);
   }
 
   close()

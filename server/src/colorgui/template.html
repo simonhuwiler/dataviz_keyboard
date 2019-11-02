@@ -1,0 +1,67 @@
+<html>
+  
+  <body>
+    <h1>Choose a Color and press a key</h1>
+    <fieldset>
+      <legend>Color</legend>
+      <input type="color" id="color" name="head" value="#ffffff">
+      <input type='text' id='hex' value='#ffffff'>
+    </fieldset>
+
+    <fieldset>
+      <legend>Control</legend>
+      <button id='clear'>Reset Keyboard</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Write here to send Key</legend>
+      <textarea id='text'></textarea>
+    </fieldset>
+
+    <script>
+      const url = 'http://localhost:3030';
+
+      //Register Keys
+      document.querySelector('#color').addEventListener("change", e => {
+        document.querySelector('#hex').value = e.target.value;
+        console.log("run")
+      }, false);
+
+      document.querySelector('#clear').addEventListener("click", () => {
+        const request = new XMLHttpRequest();
+        request.open("POST", url + '/clear');
+        request.send();
+        request.onreadystatechange = (e) => {
+          console.log(request.responseText)
+        }
+      });
+
+      document.querySelector('#text').addEventListener("keypress", e => {
+        document.querySelector('#text').value = '';
+
+        //Send Request
+        const request = new XMLHttpRequest();
+        request.open("POST", url + '/setkey');
+        request.setRequestHeader("Content-Type", "application/json");
+
+        var key = e.key.toUpperCase();
+        console.log(key)
+        switch(key)
+        {
+          case ' ':
+            key = 'SPACE';
+            break;
+        }
+        const data = {
+          key: key,
+          color: document.querySelector('#hex').value
+        };
+
+        request.send(JSON.stringify(data))
+        request.onreadystatechange = (e) => {
+          console.log(request.responseText)
+        }
+      })
+    </script>
+  </body>
+</html>
