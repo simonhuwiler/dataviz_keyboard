@@ -44,7 +44,7 @@ module.exports.getKeys = function(color)
 
   for(let i = 0; i < consts.NUMKEYS; i++)
   {
-    keys.push(c)
+    keys.push(Object.assign({}, c));
   }
   return keys;
 }

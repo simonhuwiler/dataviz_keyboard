@@ -1,5 +1,5 @@
 
-const colors = require('./colors.js');
+const colors = require('./helpers.js');
 
 module.exports.sendColorsToKeyboard = function(ledDevice, keys)
 {

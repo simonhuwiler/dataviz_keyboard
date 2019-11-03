@@ -1,8 +1,9 @@
 var HID = require('node-hid');
 const initialization = require('./initialization.js');
-const colors = require('./colors.js');
-const colorizer = require('./colorizer.js');
+const helpers = require('./helpers.js');
+const controller = require('./controller.js');
 const consts = require('./consts.js')
+const gridConsts = require('./grid/consts.js');
 
 module.exports = class RoccatVulkan
 {
@@ -13,7 +14,7 @@ module.exports = class RoccatVulkan
     console.log("Initialize Vulcan")
     
     this.animateTimers = [];
-    this.currentColors = colors.getKeys('#000000');
+    this.currentColors = helpers.getKeys('#000000');
 
     //All USB Devices
     const allDevices = HID.devices();
@@ -77,8 +78,8 @@ module.exports = class RoccatVulkan
   
   fillAll(color)
   {
-    this.currentColors = colors.getKeys(color);
-    colorizer.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+    this.currentColors = helpers.getKeys(color);
+    controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
   }
 
   updateKeys(keys, color)
@@ -87,17 +88,23 @@ module.exports = class RoccatVulkan
     {
       const key = keys[i];
 
-      if(!(key in consts.KEYMAPPER))
+      //When key is string, find corresponding id. If integer, it is already the id
+      var id = key;
+      if(typeof(key) === 'string')
       {
-        console.log("Key " + key + " not found in Keylist");
-        return;
+
+        if(!(key in consts.KEYMAPPER))
+        {
+          console.log("Key " + key + " not found in Keylist");
+          return;
+        }
+    
+        id = consts.KEYMAPPER[key];
       }
-  
-      const id = consts.KEYMAPPER[key];
   
       if(typeof color === "string")
       {
-        color = colors.hexToRgb(color);
+        color = helpers.hexToRgb(color);
       }
       else if(typeof color === "object")
       {
@@ -111,7 +118,7 @@ module.exports = class RoccatVulkan
       this.currentColors[id] = color;
     }
 
-    colorizer.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+    controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
   }
 
   updateKey(key, color)
@@ -122,8 +129,8 @@ module.exports = class RoccatVulkan
   animateKeys(keys, colorFrom, colorTo, duration)
   {
     const start = Date.now();
-    var rgbFrom = colors.hexToRgb(colorFrom);
-    var rgbTo = colors.hexToRgb(colorTo);
+    var rgbFrom = helpers.hexToRgb(colorFrom);
+    var rgbTo = helpers.hexToRgb(colorTo);
     var rgbRunning = Object.assign({}, rgbFrom);
 
     const rMax = rgbTo.r - rgbFrom.r;
@@ -165,4 +172,106 @@ module.exports = class RoccatVulkan
     }
   }
 
+  marquee(text, color, speed)
+  {
+    //Convert Color
+    const rgbColor = helpers.hexToRgb(color);
+
+    //Create empty binary grid
+    var binaryGrid = gridConsts.KEYGRID.map(row => row.map(cell => 0));
+
+    //Create textgrid
+    var textGrid = [[], [], [], [], [], []];
+
+    const emptyLine = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    
+    for(let i = 0; i < text.length; i++)
+    {
+      const char = gridConsts.marquee[text.charAt(i)];
+      console.log(char)
+      textGrid = textGrid.map((row, j) => row.concat(emptyLine[j]).concat(char[j]))
+    }
+
+    //Concat Binary and Textgrid
+    binaryGrid = binaryGrid.map((row, i) => row.concat(textGrid[i]));
+
+    //TEST
+    // binaryGrid = textGrid;
+
+
+    const timer = setInterval(() => {
+
+      //Remove first row of grid
+      for(let row in binaryGrid)
+        binaryGrid[row].shift();
+
+        
+      //Get black screen
+      var screen = helpers.getKeys('#000000');
+
+      console.log(binaryGrid[0].length)
+
+      for(let row = 0; row < binaryGrid.length; row++)
+      {
+        for(let column = 0; column < binaryGrid[row].length; column++)
+        {
+          if(column > gridConsts.KEYGRID[row].length)
+            break
+  
+          //Search corresponding key
+          if(binaryGrid[row][column] === 1 && gridConsts.KEYGRID[row][column] != gridConsts.NOKEY)
+          {
+            screen[gridConsts.KEYGRID[row][column]] = rgbColor;
+          }
+        }
+      }
+  
+      this.currentColors = screen;
+      
+      controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+
+      //Clear Timer if no grid columns left
+      if(binaryGrid[0].length === 0)
+      {
+        const t = this.animateTimers.find(e => e === timer)
+        console.log("finished")
+        if(t)
+          clearInterval(t)
+      }
+        
+    }, speed);
+    this.animateTimers.push(timer);
+
+  }
+
+  columnTest()
+  {
+    var screen = helpers.getKeys('#000000');
+    for(let row = 0; row < gridConsts.KEYGRID.length; row++)
+    {
+      for(let column = 0; column < gridConsts.KEYGRID[row].length; column++)
+      {
+        const cell = gridConsts.KEYGRID[row][column];
+        if(cell === -1)
+          continue;
+        screen[cell].b = column % 2 === 0 ? 255 : 15;
+        screen[cell].r = column % 2 === 0 ? 15 : 255;
+
+      }
+    }
+    controller.sendColorsToKeyboard(this.ledDevice, screen);
+  }
+
+  // speedTest()
+  // {
+  //   this.fillAll('#000000');
+  //   var state = 0;
+  //   setInterval(() => {
+  //     if(state % 2 === 0)
+  //       this.updateKey('D', '#ff0000')
+  //     else
+  //       this.updateKey('D', '#000000');
+  //     state++;
+  //   }, 30)
+  // }
 }

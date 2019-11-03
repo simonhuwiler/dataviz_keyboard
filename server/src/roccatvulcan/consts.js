@@ -7,7 +7,7 @@ module.exports.PRODUCTID = 12440//0x3098
 
 module.exports.ANIMATIONINTERVAL = 10;
 
-module.exports.NOKEY = -1;
+
 
 module.exports.KEYMAPPER = {
 
@@ -81,8 +81,8 @@ module.exports.KEYMAPPER = {
         "RIGHTALT": 70,
 
         "'": 72,
-        "LEFTBRACE": 73,
-        "APOSTROPHE": 74,
+        "Ü": 73,
+        "Ä": 74,
         "-": 75,
         "FN": 76,
         "RIGHTMETA": 77,
@@ -90,7 +90,6 @@ module.exports.KEYMAPPER = {
         "F9": 78,
         "^": 79,
         "¨": 80,
-        "BACKSLASH": 81,
         "RIGHTSHIFT": 82,
         "COMPOSE": 83,
 
@@ -100,8 +99,10 @@ module.exports.KEYMAPPER = {
         "BACKSPACE": 87,
         "ENTER": 88,
         "RIGHTCTRL": 89,
+        
+        "$": 96,
 
-        "SYSRQ": 99,
+        "PRTSCR": 99,
         "INSERT": 100,
         "DELETE": 101,
         "LEFT": 102,
@@ -138,9 +139,5 @@ module.exports.KEYMAPPER = {
         "KPPLUS": 130,
         "KPENTER": 131
 }
-
-module.exports.KEYGRID = [
-  []
-]
 
 module.exports.ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
