@@ -172,6 +172,51 @@ module.exports = class RoccatVulkan
     }
   }
 
+  write(text, color, keyOffset)
+  {
+    //Convert Color
+    const rgbColor = helpers.hexToRgb(color);
+
+    //Create empty binary grid
+    var binaryGrid = gridConsts.KEYGRID.map(row => row.map(cell => 0));
+
+    var gridPos = keyOffset;
+    for(let i = 0; i < text.length; i++)
+    {
+      const char = gridConsts.marquee[text.charAt(i)];
+      for(let row = 0; row < char.length; row++)
+      {
+        for(let column = 0; column < char[row].length; column++)
+        {
+          binaryGrid[row][column + gridPos] = char[row][column];
+        }
+      }
+      
+      //Update gridPos
+      gridPos += char[0].length + keyOffset;
+    }
+
+    //Create Screen and map binarygrid to it
+    var screen = helpers.getKeys('#000000');
+    for(let row = 0; row < binaryGrid.length; row++)
+      {
+        for(let column = 0; column < binaryGrid[row].length; column++)
+        {
+          if(column > gridConsts.KEYGRID[row].length)
+            break
+  
+          //Search corresponding key
+          if(binaryGrid[row][column] === 1 && gridConsts.KEYGRID[row][column] != gridConsts.NOKEY)
+          {
+            screen[gridConsts.KEYGRID[row][column]] = rgbColor;
+          }
+        }
+      }
+
+    this.currentColors = screen;
+    controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
+  }
+
   marquee(text, color, speed)
   {
     //Convert Color
@@ -183,12 +228,12 @@ module.exports = class RoccatVulkan
     //Create textgrid
     var textGrid = [[], [], [], [], [], []];
 
-    const emptyLine = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    const emptyLine = new Array(6).fill(new Array(gridConsts.SPACEBETWEEN).fill(0));
+    // const emptyLine = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
     
     for(let i = 0; i < text.length; i++)
     {
       const char = gridConsts.marquee[text.charAt(i)];
-      console.log(char)
       textGrid = textGrid.map((row, j) => row.concat(emptyLine[j]).concat(char[j]))
     }
 
@@ -205,11 +250,8 @@ module.exports = class RoccatVulkan
       for(let row in binaryGrid)
         binaryGrid[row].shift();
 
-        
       //Get black screen
       var screen = helpers.getKeys('#000000');
-
-      console.log(binaryGrid[0].length)
 
       for(let row = 0; row < binaryGrid.length; row++)
       {
@@ -244,23 +286,25 @@ module.exports = class RoccatVulkan
 
   }
 
-  columnTest()
-  {
-    var screen = helpers.getKeys('#000000');
-    for(let row = 0; row < gridConsts.KEYGRID.length; row++)
-    {
-      for(let column = 0; column < gridConsts.KEYGRID[row].length; column++)
-      {
-        const cell = gridConsts.KEYGRID[row][column];
-        if(cell === -1)
-          continue;
-        screen[cell].b = column % 2 === 0 ? 255 : 15;
-        screen[cell].r = column % 2 === 0 ? 15 : 255;
+  // columnTest()
+  // {
+  //   var screen = helpers.getKeys('#000000');
+  //   for(let row = 0; row < gridConsts.KEYGRID.length; row++)
+  //   {
+  //     for(let column = 0; column < gridConsts.KEYGRID[row].length; column++)
+  //     {
+  //       const cell = gridConsts.KEYGRID[row][column];
+  //       if(cell === -1)
+  //         continue;
+  //       screen[cell].b = column % 2 === 0 ? 255 : 15;
+  //       screen[cell].r = column % 2 === 0 ? 15 : 255;
 
-      }
-    }
-    controller.sendColorsToKeyboard(this.ledDevice, screen);
-  }
+  //     }
+  //   }
+  //   controller.sendColorsToKeyboard(this.ledDevice, screen);
+  // }
+
+
 
   // speedTest()
   // {

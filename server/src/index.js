@@ -47,7 +47,9 @@ app.listen(3030, () => {
   
   keyboard = new RoccatVulcan({
     ready: () => {
-      keyboard.fillAll('#000000')
+      //keyboard.fillAll('#000000')
+      // keyboard.write("0", "#ff0000", 2)
+
       // keyboard.updateKeys(['1', '2', '3'], '#505050');
       // keyboard.updateKeys(consts.ALPHABET, '#FF0000');
       // c = []
@@ -63,7 +65,7 @@ app.listen(3030, () => {
   });
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
-  // keyboard.marquee("N", "#FF0000", 200)
+  keyboard.marquee("32000", "#FF0000", 100)
   
 
 });
