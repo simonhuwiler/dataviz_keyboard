@@ -83,11 +83,15 @@ module.exports = class RoccatVulkan
   fillAll(color)
   {
     this.currentColors = helpers.getKeys(color);
-    controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
   }
 
-  updateKeys(keys, color)
+  //Colors the keys. Use background for other keys. Leave empty to use them as they are
+  updateKeys(keys, color, backgroundColor)
   {
+    //Fill background or leave as it is
+    if(backgroundColor)
+      this.currentColors = helpers.getKeys(backgroundColor);
+
     for(let i in keys)
     {
       const key = keys[i];
@@ -121,7 +125,10 @@ module.exports = class RoccatVulkan
       
       this.currentColors[id] = color;
     }
+  }
 
+  render()
+  {
     controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
   }
 
@@ -159,7 +166,6 @@ module.exports = class RoccatVulkan
       if(runningTime >= duration)
       {
         const t = this.animateTimers.find(e => e === timer)
-        console.log("f")
         if(t)
           clearInterval(t)
       }
@@ -297,11 +303,21 @@ module.exports = class RoccatVulkan
 
   animationQueueStart(onFinish)
   {
+    if(this.animationQueue.length === 0)
+    {
+      onFinish();
+      return;
+    }
+
     var animationQueueCurrent = 0;
 
     const nextAnimation = ()  =>
     {
       setTimeout(() => {
+
+        //Perhaps animationqueue has already stopt
+        if(this.animationQueue.length === 0)
+          return;
 
         //Start Animation
         this.animationQueue[animationQueueCurrent].animation()
@@ -320,6 +336,26 @@ module.exports = class RoccatVulkan
 
     //Start Animation
     nextAnimation();
+  }
+
+  animationQueueStop()
+  {
+    this.animationQueue = [];
+    this.animationQueueCurrent = 0;
+  }
+
+  renderStart(interval)
+  {
+    this.renderStop();
+
+    interval = interval ? interval : consts.ANIMATIONINTERVAL;
+    this.autoRender = setInterval(() => this.render(), interval);
+  }
+
+  renderStop()
+  {
+    if(this.autoRender)
+      clearInterval(this.autoRender);
   }
 
 

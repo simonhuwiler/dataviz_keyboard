@@ -1,0 +1,25 @@
+<html>
+  
+  <body>
+    <h1>Chaptertest</h1>
+    <button id='intro'>Intro</button>
+    <button id='pong'>Pong</button>
+    <script>
+      const url = 'http://localhost:3030';
+
+      function sendRequest(param)
+      {
+        const request = new XMLHttpRequest();
+          request.open("POST", url + param);
+          request.send();
+          request.onreadystatechange = (e) => {
+            console.log(request.responseText)
+          }
+      }
+
+      document.querySelector('#intro').addEventListener("click", () => sendRequest('/intro'));
+      document.querySelector('#pong').addEventListener("click", () => sendRequest('/pong'));
+
+    </script>
+  </body>
+</html>
