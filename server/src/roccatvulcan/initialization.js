@@ -1,10 +1,6 @@
 function sleep()
 {
-  return new Promise((resolve, reject) => {
-    console.log("sleep");
-
-    setTimeout(() => resolve(), 200)
-  })
+  return new Promise((resolve, reject) => setTimeout(() => resolve(), 200));
 }
 
 function writeControl(ctrlDevice, data)

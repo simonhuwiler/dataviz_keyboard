@@ -3,7 +3,10 @@ const initialization = require('./initialization.js');
 const helpers = require('./helpers.js');
 const controller = require('./controller.js');
 const consts = require('./consts.js')
-const gridConsts = require('./grid/consts.js');
+
+const grid = require('./keyboardlayout/ch-de/grid.js');
+const keylist = require('./keyboardlayout/ch-de/keys.js');
+const alphabet = require('./keyboardlayout/ch-de/alphabet.js')
 
 module.exports = class RoccatVulkan
 {
@@ -14,6 +17,7 @@ module.exports = class RoccatVulkan
     console.log("Initialize Vulcan")
     
     this.animateTimers = [];
+    this.animationQueue = [];
     this.currentColors = helpers.getKeys('#000000');
 
     //All USB Devices
@@ -93,13 +97,13 @@ module.exports = class RoccatVulkan
       if(typeof(key) === 'string')
       {
 
-        if(!(key in consts.KEYMAPPER))
+        if(!(key in keylist.KEYMAPPER))
         {
           console.log("Key " + key + " not found in Keylist");
           return;
         }
     
-        id = consts.KEYMAPPER[key];
+        id = keylist.KEYMAPPER[key];
       }
   
       if(typeof color === "string")
@@ -178,12 +182,12 @@ module.exports = class RoccatVulkan
     const rgbColor = helpers.hexToRgb(color);
 
     //Create empty binary grid
-    var binaryGrid = gridConsts.KEYGRID.map(row => row.map(cell => 0));
+    var binaryGrid = grid.KEYGRID.map(row => row.map(cell => 0));
 
     var gridPos = keyOffset;
     for(let i = 0; i < text.length; i++)
     {
-      const char = gridConsts.marquee[text.charAt(i)];
+      const char = alphabet[text.charAt(i)];
       for(let row = 0; row < char.length; row++)
       {
         for(let column = 0; column < char[row].length; column++)
@@ -202,7 +206,7 @@ module.exports = class RoccatVulkan
       {
         for(let column = 0; column < binaryGrid[row].length; column++)
         {
-          if(column > gridConsts.KEYGRID[row].length)
+          if(column > grid.KEYGRID[row].length)
             break
   
           //Search corresponding key
@@ -233,7 +237,7 @@ module.exports = class RoccatVulkan
     
     for(let i = 0; i < text.length; i++)
     {
-      const char = gridConsts.marquee[text.charAt(i)];
+      const char = alphabet[text.charAt(i)];
       textGrid = textGrid.map((row, j) => row.concat(emptyLine[j]).concat(char[j]))
     }
 
@@ -285,6 +289,40 @@ module.exports = class RoccatVulkan
     this.animateTimers.push(timer);
 
   }
+
+  animationQueueAdd(animation, delay)
+  {
+    this.animationQueue.push({animation: animation, delay: delay});
+  }
+
+  animationQueueStart(onFinish)
+  {
+    var animationQueueCurrent = 0;
+
+    const nextAnimation = ()  =>
+    {
+      setTimeout(() => {
+
+        //Start Animation
+        this.animationQueue[animationQueueCurrent].animation()
+
+        animationQueueCurrent++;
+
+        //Has animation? Trigger. Otherwise: Trigger callback
+        if(animationQueueCurrent < this.animationQueue.length)
+          nextAnimation();
+        else if(onFinish)
+          onFinish()
+          
+
+      }, this.animationQueue[animationQueueCurrent].delay)
+    }
+
+    //Start Animation
+    nextAnimation();
+  }
+
+
 
   // columnTest()
   // {

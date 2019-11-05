@@ -3,8 +3,9 @@ const app = express()
 const RoccatVulcan = require('./roccatvulcan');
 const ColorGui = require('./colorgui');
 const consts = require('./roccatvulcan/consts.js')
-const grid = require('./roccatvulcan/grid/');
-const gridconsts = require('./roccatvulcan/grid/consts.js');
+const chapters = require('./chapters.js');
+// const grid = require('./roccatvulcan/grid/');
+// const gridconsts = require('./roccatvulcan/grid/consts.js');
 
 var keyboard = null;
 
@@ -47,6 +48,10 @@ app.listen(3030, () => {
   
   keyboard = new RoccatVulcan({
     ready: () => {
+      // keyboard.fillAll('#000000')
+      chapters.intro(keyboard);
+      // keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#FF0000', 2000);
+      
       //keyboard.fillAll('#000000')
       // keyboard.write("0", "#ff0000", 2)
 
@@ -65,7 +70,7 @@ app.listen(3030, () => {
   });
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
-  keyboard.marquee("32000", "#FF0000", 100)
+  // keyboard.marquee("32000", "#FF0000", 100)
   
 
 });
