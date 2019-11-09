@@ -79,6 +79,16 @@ module.exports = class RoccatVulkan
         options.ready();
     })
   }
+
+  get currentColor()
+  {
+    return this.currentColors;
+  }
+
+  set currentColor(val)
+  {
+    this.currentColors = val;
+  }
   
   fillAll(color)
   {
@@ -132,9 +142,9 @@ module.exports = class RoccatVulkan
     controller.sendColorsToKeyboard(this.ledDevice, this.currentColors);
   }
 
-  updateKey(key, color)
+  updateKey(key, color, background)
   {
-    this.updateKeys([key], color);
+    this.updateKeys([key], color, background);
   }
 
   animateKeys(keys, colorFrom, colorTo, duration)

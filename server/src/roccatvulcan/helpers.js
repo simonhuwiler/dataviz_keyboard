@@ -48,3 +48,8 @@ module.exports.getKeys = function(color)
   }
   return keys;
 }
+
+module.exports.replaceAll = function(str, search, replacement) 
+{
+  return str.replace(new RegExp(search, 'g'), replacement);
+};

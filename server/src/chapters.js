@@ -2,6 +2,8 @@ const keylist = require('./roccatvulcan/keyboardlayout/ch-de/keys.js');
 const grid = require('./roccatvulcan/keyboardlayout/ch-de/grid.js');
 const consts = require('./roccatvulcan/consts.js')
 
+const testtext = 'We dont want to conquer the cosmos, we simply want to extend the boundaries of earth to the frontiers of the cosmos.';
+
 module.exports = class Intro
 {
   constructor(keyboard)
@@ -69,7 +71,6 @@ module.exports = class Intro
     this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
 
 
-    this.keyboard.renderStart(50);
     this.keyboard.animationQueueStart();
 
 
@@ -249,10 +250,7 @@ module.exports = class Intro
   stopChapters()
   {
     this.keyboard.animationQueueStop();
-    this.keyboard.renderStop();
     this.keyboard.fillAll('#000000');
-    this.keyboard.render();
-
   }
 
   pong()
@@ -263,7 +261,7 @@ module.exports = class Intro
     this.currentChapter = 'pong';
     const paddelColor = '#00eb16';
     const ballColor = '#ffde00';
-    this.keyboard.renderStart(100);
+    
 
     const paddelLeft = [
       ['Q', 'A'],
@@ -412,7 +410,6 @@ module.exports = class Intro
     {
       case 2012:
           this.stopChapters();
-          this.keyboard.renderStart(50);
           this.keyboard.animateKeys(['LEFTCTRL', 'LEFTMETA'], '#000000', '#270000', 200);
           break;
       case 2014:
@@ -442,5 +439,78 @@ module.exports = class Intro
           break;
 
     }
-  }    
+  }
+
+  sixKeys()
+  {
+     //Stop any animation in queue
+     this.stopChapters();
+
+     this.currentChapter = 'sixkeys';
+     
+     this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], '#000000', '#ff0000', 1000);     
+  }
+
+  sixKeysAfter()
+  {
+    const sleep = 100;
+    const animationTime = 1000;
+    const color = '#ff5a00';
+
+    this.currentChapter = 'sixkeysafter';
+
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['T', 'F', 'V', 'SPACE', 'M', 'K', 'U', '7', '6'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['C', 'D', 'R', '5', '8', 'I', 'L', ','], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['X', 'S', 'E', '4', 'F4', 'F5', 'F6', 'F7', '9', 'O', 'Ö', '.'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['LEFTALT', 'Y', 'A', 'W', '3', 'F3', 'F8', '0', 'P', 'Ä', '-', 'RIGHTALT'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['LEFTMETA', '<', 'CAPSLOCK', 'Q', '2', 'F2', 'F9', "'", 'Ü', 'FN'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['LEFTCTRL', 'LEFTSHIFT', 'TAB', '1', 'F1', 'F10', '^', '¨', '$', 'RIGHTSHIFT', 'COMPOSE'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['§', 'ESC', 'F11', 'BACKSPACE', 'ENTER', 'RIGHTCTRL'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['F12', 'INSERT', 'DELETE', 'LEFT'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['HOME', 'END', 'PRTSCR', 'UP', 'DOWN'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['SCROLLLOCK', 'PAGEUP', 'PAGEDOWN', 'RIGHT'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['PAUSE', 'NUMLOCK', 'KP7', 'KP4', 'KP1', 'KP0'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['KPSLASH', 'KP8', 'KP5', 'KP2'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['KPASTERISK', 'KP9', 'KP6', 'KP3', 'KPDOT'], '#000000', color, animationTime), sleep);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['KPMINUS', 'KPPLUS', 'KPENTER'], '#000000', color, animationTime), sleep);
+    
+    this.keyboard.animationQueueStart();
+  }
+
+  flags()
+  {
+    this.keyboard.fillAll('#000000')
+    this.currentChapter = 'sixkeysafter';
+
+    const den1 = '#ff0000';
+    const den2 = '#ffffff';
+    this.keyboard.updateKeys(['Q', 'E', 'R', 'T', '<', 'X', 'C', 'V'], den1)
+    this.keyboard.updateKeys(['W', 'A', 'S', 'D', 'F', 'Y'], den2)
+
+    const fin1 = '#ffffff';
+    const fin2 = '#0000FF';
+    this.keyboard.updateKeys(['U', 'O', 'P', 'Ü', 'N', ',', '.', '-'], fin1);
+    this.keyboard.updateKeys(['J', 'I', 'K', 'M', 'L', 'Ö', 'Ä'], fin2);
+  }
+
+  speedTest(speed)
+  {
+    
+    var text = testtext.split("").map(char => {
+      if(char === ' ')
+        return 'SPACE'
+      return char.toUpperCase()
+    });
+
+    const keysPerSecond = 60 / speed;
+    var currentKey = 0;
+    setInterval(() => {
+      this.keyboard.updateKey(text[currentKey], '#ff0000', '#000000');
+      currentKey++;
+      if(currentKey > testtext.length)
+        currentKey = 0;
+
+    }, keysPerSecond * 1000);
+
+  }
 }

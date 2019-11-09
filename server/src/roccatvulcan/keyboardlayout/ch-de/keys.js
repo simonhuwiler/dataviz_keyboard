@@ -74,7 +74,7 @@ module.exports.KEYMAPPER = {
         "Ä": 74,
         "-": 75,
         "FN": 76,
-        "RIGHTMETA": 77,
+        // "RIGHTMETA": 77,
 
         "F9": 78,
         "^": 79,

@@ -47,7 +47,7 @@ app.post("/intro", (req, res) => {
 });
 
 app.post("/pong", (req, res) => {
-  chapters.pong(keyboard);
+  chapters.pong();
   res.sendStatus(200);
 });
 
@@ -56,6 +56,20 @@ app.post("/barchart", (req, res) => {
   res.sendStatus(200);
 });
 
+app.post("/sixkeys", (req, res) => {
+  chapters.sixKeys()
+  res.sendStatus(200);
+});
+
+app.post("/sixkeysafter", (req, res) => {
+  chapters.sixKeysAfter()
+  res.sendStatus(200);
+});
+
+app.post("/speedtest", (req, res) => {
+  chapters.speedTest(req.body.speed)
+  res.sendStatus(200);
+});
 
 app.listen(3030, () => {
   console.log("Start server. Prepare Roccat");
@@ -63,7 +77,7 @@ app.listen(3030, () => {
   keyboard = new RoccatVulcan({
     ready: () => {
       // keyboard.fillAll('#000000')
-      // keyboard.render();
+      // keyboard.renderStart(50);
 
 
       // keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#FF0000', 2000);
@@ -85,8 +99,8 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
-  keyboard.fillAll('#000000')
-  keyboard.render();
+  keyboard.renderStart(50);
+  chapters.speedTest(520);
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
   // keyboard.marquee("32000", "#FF0000", 100)
