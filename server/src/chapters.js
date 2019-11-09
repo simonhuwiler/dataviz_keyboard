@@ -14,6 +14,66 @@ module.exports = class Intro
   {
     this.currentChapter = 'intro';
 
+    const colors = ['#ff4f4f', '#ff605d', '#ff6f6c', '#ff7d7a', '#ff8987', '#ff9595'];
+
+    //Bottom to Top
+    for(let i = grid.KEYGRID.length - 1; i >= 0; i--)
+    {
+      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(grid.KEYGRID[i], '#000000', colors[i], 1000), 100);
+    }
+
+    //Left to right
+    for(let i = 0; i < grid.KEYGRID[0].length; i++)
+    {
+      this.keyboard.animationQueueAdd(() =>  {
+
+        //Current Keys
+        var keys = []
+        for(let g in grid.KEYGRID)
+          keys.push(grid.KEYGRID[g][i]);
+
+        // this.keyboard.updateKeys(keys, '#ff0000')
+        this.keyboard.animateKeys(keys, '#ff9595', '#ff0000', 50)
+
+      }, i === 0 ? 1100 : 50);
+    }
+
+    //Right to left
+    for(let i = grid.KEYGRID[0].length; i >= 0; i--)
+    {
+      this.keyboard.animationQueueAdd(() =>  {
+
+        //Current Keys
+        var keys = []
+        for(let g in grid.KEYGRID)
+        {
+          var k = grid.KEYGRID[g][i];
+
+          if(![13, 8, 14, 20].includes(k))
+          {
+            keys.push(k);
+          }
+        }
+
+        // this.keyboard.updateKeys(keys, '#ff0000')
+        this.keyboard.animateKeys(keys, '#ff0000', '#000000', 50)
+
+      }, 50);
+    }
+
+    //Animate WASD
+    const keys = ['W', 'A', 'S', 'D']
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 2000);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 3000);
+    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
+
+
+    this.keyboard.renderStart(50);
+    this.keyboard.animationQueueStart();
+
+
+    /* Einfliegen Tasten
     const positions = [
       ['F6', 'F7', 'F8'],
       ['F5', 'F6', 'F7'],
@@ -58,7 +118,7 @@ module.exports = class Intro
       this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#323232', '#000000', 500), 500);
       this.keyboard.animationQueueStart();
     })
-
+    */
 
     /* Test color scale */
     // const colorScale = ['#ff0000', '#ff0000', '#ff4000', '#ff5000', '#ff5d00', '#ff6900', '#ff7300', '#ff7e00', '#ff8700', '#ff9000', '#ff9900', '#ffa200', '#ffaa00', '#ffb200', '#ffba00', '#ffc200', '#ffca00', '#ffd200', '#ffd900', '#ffe100', '#ffe900', '#fff000']
@@ -197,13 +257,13 @@ module.exports = class Intro
 
   pong()
   {
-    //Stop any animation in que
+    //Stop any animation in queue
     this.stopChapters();
 
     this.currentChapter = 'pong';
     const paddelColor = '#00eb16';
     const ballColor = '#ffde00';
-    this.keyboard.renderStart(200);
+    this.keyboard.renderStart(100);
 
     const paddelLeft = [
       ['Q', 'A'],
@@ -326,6 +386,54 @@ module.exports = class Intro
     // }
 
     // keyboard.updateKeys(NUMBERS['2'], numberColor);
+
+
+  }
+
+  barchart()
+  {
+    /*
+      Values:
+       * 130
+       * 194
+       * 325 = 1
+       * 493
+       * 655 = 2
+       * 865 = 3
+       * 1096 = 4
+       * 1790 = 6
+      Source: https://www.statista.com/statistics/490522/global-esports-market-revenue/
+    */
+
+    //Stop any animation in queue
+    this.stopChapters();
+    this.currentChapter = 'barchart';
+
+    const colors = ['#d8aaaa', '#d95959']
+    //2012
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['LEFTCTRL', 'LEFTMETA'], '#270000'), 100);
+    //2014
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['LEFTALT'], '#5a0000'), 100);
+    //2015
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['SPACE'], '#5a0000'), 100);
+    //2016
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['B', 'N'], '#ff0000'), 100);
+    //2017
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['M', ',', 'K'], '#ff0000'), 100);
+    //2018
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['RIGHTALT', 'FN', '.', '-', 'L', 'Ö', 'Ä'], '#ff0000'), 100);
+    //2019
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['$', '¨', 'COMPOSE', 'RIGHTSHIFT'], '#ff0000'), 100);
+
+    //2022
+    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['RIGHTCTRL', 'ENTER', 'BACKSPACE', 'F12', 'PRTSCR', 'INSERT',
+      'DELETE', 'HOME', 'END', 'PAUSE', 'PAGEUP', 'SCROLLLOCK', 'PAGEDOWN', 'NUMLOCK', 'UP', 'LEFT', 'DOWN', 'RIGHT', 'KPSLASH',
+    'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KPDOT', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9'], '#ff0000'), 100);
+
+
+    
+    this.keyboard.renderStart(50);
+    this.keyboard.animationQueueStart();
 
 
   }

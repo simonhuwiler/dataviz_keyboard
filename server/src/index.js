@@ -57,8 +57,10 @@ app.listen(3030, () => {
   
   keyboard = new RoccatVulcan({
     ready: () => {
-      keyboard.fillAll('#000000')
-      keyboard.render();
+      // keyboard.fillAll('#000000')
+      // keyboard.render();
+
+
       // keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#FF0000', 2000);
       
       //keyboard.fillAll('#000000')
@@ -78,6 +80,7 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
+  chapters.barchart();
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
   // keyboard.marquee("32000", "#FF0000", 100)
