@@ -390,7 +390,7 @@ module.exports = class Intro
 
   }
 
-  barchart()
+  barchart(year)
   {
     /*
       Values:
@@ -406,35 +406,41 @@ module.exports = class Intro
     */
 
     //Stop any animation in queue
-    this.stopChapters();
     this.currentChapter = 'barchart';
 
-    const colors = ['#d8aaaa', '#d95959']
-    //2012
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['LEFTCTRL', 'LEFTMETA'], '#270000'), 100);
-    //2014
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['LEFTALT'], '#5a0000'), 100);
-    //2015
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['SPACE'], '#5a0000'), 100);
-    //2016
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['B', 'N'], '#ff0000'), 100);
-    //2017
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['M', ',', 'K'], '#ff0000'), 100);
-    //2018
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['RIGHTALT', 'FN', '.', '-', 'L', 'Ö', 'Ä'], '#ff0000'), 100);
-    //2019
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['$', '¨', 'COMPOSE', 'RIGHTSHIFT'], '#ff0000'), 100);
+    switch(year)
+    {
+      case 2012:
+          this.stopChapters();
+          this.keyboard.renderStart(50);
+          this.keyboard.animateKeys(['LEFTCTRL', 'LEFTMETA'], '#000000', '#270000', 200);
+          break;
+      case 2014:
+        console.log("2014a")
+          this.keyboard.animateKeys(['LEFTALT'], '#000000', '#5a0000', 200);
+          break;
+      case 2015:
+          this.keyboard.animateKeys(['SPACE'], '#000000', '#5a0000', 200);
+          break;
+      case 2016:
+          this.keyboard.animateKeys(['B', 'N'], '#000000', '#ff0000', 200);
+          break;
+      case 2017:
+          this.keyboard.animateKeys(['M', ',', 'K'], '#000000', '#ff0000', 200);
+          break;
+      case 2018:
+          this.keyboard.animateKeys(['RIGHTALT', 'FN', '.', '-', 'L', 'Ö', 'Ä'], '#000000', '#ff0000', 200);
+          break;
+      case 2019:
+          this.keyboard.animateKeys(['$', '¨', 'COMPOSE', 'RIGHTSHIFT'], '#000000', '#ff0000', 200);
+           break;
+      case 2022:
+          this.keyboard.animateKeys(['RIGHTCTRL', 'ENTER', 'BACKSPACE', 'F12', 'PRTSCR', 'INSERT',
+            'DELETE', 'HOME', 'END', 'PAUSE', 'PAGEUP', 'SCROLLLOCK', 'PAGEDOWN', 'NUMLOCK', 'UP', 'LEFT', 'DOWN', 'RIGHT', 'KPSLASH',
+            'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KPDOT', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9'],
+            '#000000', '#ff0000', 200)
+          break;
 
-    //2022
-    this.keyboard.animationQueueAdd(() => this.keyboard.updateKeys(['RIGHTCTRL', 'ENTER', 'BACKSPACE', 'F12', 'PRTSCR', 'INSERT',
-      'DELETE', 'HOME', 'END', 'PAUSE', 'PAGEUP', 'SCROLLLOCK', 'PAGEDOWN', 'NUMLOCK', 'UP', 'LEFT', 'DOWN', 'RIGHT', 'KPSLASH',
-    'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KPDOT', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9'], '#ff0000'), 100);
-
-
-    
-    this.keyboard.renderStart(50);
-    this.keyboard.animationQueueStart();
-
-
-  }
+    }
+  }    
 }

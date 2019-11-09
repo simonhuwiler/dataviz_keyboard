@@ -4,14 +4,26 @@
     <h1>Chaptertest</h1>
     <button id='intro'>Intro</button>
     <button id='pong'>Pong</button>
+    <fieldset>
+      <legend>Barchart</legend>
+      <button class='barchart'>2012</button>
+      <button class='barchart'>2014</button>
+      <button class='barchart'>2015</button>
+      <button class='barchart'>2016</button>
+      <button class='barchart'>2017</button>
+      <button class='barchart'>2018</button>
+      <button class='barchart'>2019</button>
+      <button class='barchart'>2022</button>
+    </fieldset>
     <script>
       const url = 'http://localhost:3030';
 
-      function sendRequest(param)
+      function sendRequest(param, data)
       {
         const request = new XMLHttpRequest();
           request.open("POST", url + param);
-          request.send();
+          request.setRequestHeader("Content-Type", "application/json");
+          request.send(JSON.stringify(data));
           request.onreadystatechange = (e) => {
             console.log(request.responseText)
           }
@@ -19,6 +31,11 @@
 
       document.querySelector('#intro').addEventListener("click", () => sendRequest('/intro'));
       document.querySelector('#pong').addEventListener("click", () => sendRequest('/pong'));
+      document.querySelectorAll('.barchart').forEach(e => {
+        e.addEventListener("click", e => {
+        sendRequest('/barchart', {year: parseInt(e.srcElement.innerText)})}
+        );
+      });
 
     </script>
   </body>

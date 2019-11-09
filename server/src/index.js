@@ -51,6 +51,11 @@ app.post("/pong", (req, res) => {
   res.sendStatus(200);
 });
 
+app.post("/barchart", (req, res) => {
+  chapters.barchart(req.body.year)
+  res.sendStatus(200);
+});
+
 
 app.listen(3030, () => {
   console.log("Start server. Prepare Roccat");
@@ -80,7 +85,8 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
-  chapters.barchart();
+  keyboard.fillAll('#000000')
+  keyboard.render();
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
   // keyboard.marquee("32000", "#FF0000", 100)
