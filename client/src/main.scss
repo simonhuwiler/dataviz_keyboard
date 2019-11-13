@@ -78,10 +78,123 @@ body
   }
 }
 
+#chapter_barcharts .scrolltext
+{
+  position: absolute;
+  left: calc((50% - 250px) / 2);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  color: grey;
+  height: 51px;
+  overflow: hidden;
+
+  .inner
+  {
+    position: relative;
+    transition: all 0.5s ease 0s;
+    span
+    {
+      display: block;
+    }
+  }
+}
+
 .yourwritingspeed
 {
   font-weight: bold;
 }
+
+
+#chapter_letsplay
+{
+  input 
+  {
+    width: 100%;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 80px 0;
+    cursor: pointer;
+  }
+}
+
+#gameoverlay
+{
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  text-align: center;
+
+  .inner
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+
+    .clock
+    {
+      font-size: 1.5em;
+    }
+
+    .points
+    {
+      font-size: 3em;
+    }
+
+    .icon
+    {
+      float: left;
+      height: 90px;
+    }
+
+    .clearfix
+    {
+      clear: both;
+    }
+
+    .description
+    {
+      font-size: 1.2em;
+
+      float: left;
+      height: 90px;
+      width: 350px;
+      vertical-align: middle;
+      margin: 30px 0 0 0;
+
+    }
+
+  }
+}
+
+.credits
+{
+  font-size: 0.8em;
+  padding: 50px 0 0 0;
+  span
+  {
+    text-decoration: underline;
+  }
+
+  p
+  {
+    font-size: 0.6em;
+    color: grey;
+  }
+}
+
+a, a:visited
+{
+  color: rgb(72, 72, 72);
+  text-decoration: underline;
+}
+
 
 svg.intro {
   max-width: 800px;

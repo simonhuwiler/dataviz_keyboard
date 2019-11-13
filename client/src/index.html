@@ -10,7 +10,7 @@
 
   <meta name="description" content="" />
 
-  <title>WASD</title>
+  <title>WASD - The rise of eSports</title>
 
   <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500&display=swap" rel="stylesheet">
 
@@ -41,6 +41,14 @@
   </div>
 
   <div id='chapter_barcharts' class='chapter'>
+    <div class='scrolltext'>
+      <div class='inner'>
+        <span>2015</span>
+        <span>2016</span>
+        <span>2017</span>
+        <span>2018</span>
+      </div>
+    </div>
     <div class='chaptertext'>
       Time has changed. From simple ping pong adaptations to strategic complex simulations. eSports, competitive sports using video games, is a thriving market. Around 130 Millions in 2012. Twenty years later: 1.9 billion dollars estimated!
     </div>
@@ -97,6 +105,61 @@
       You writing speed is around <span id='yourwritingspeed'></span>. Look at the keyboard. That is you typing. 
     </div>
   </div>
+
+  <div id='chapter_speed400' class='chapter'>
+    <div class='chaptertext'>
+        The measuring unit in eSports is actions per minute (apm). An action is selection a unit or giving orders to your meeple. In intense battle, the APM is around 400. Look at your keyboard. That’s how fast you would have to write.
+    </div>
+  </div>
+
+  <div id='chapter_speed400' class='chapter'>
+    <div class='chaptertext'>
+        And that’s Korean player Park Sung-joon playing. He is the recold holder with 818 APMs. 
+    </div>
+  </div>
+
+  <div id='chapter_finish' class='chapter'>
+    <div class='chaptertext'>
+      AWSD stands for the keys often used as the arrow keys in gaming. But AWSD also stands for a thriving industry, a billion-dollar market and a new form of sports competition. 
+    </div>
+  </div>
+
+  <div id='chapter_letsplay' class='chapter'>
+    <div class='chaptertext'>
+      This is the end of our story. Let's play a game! It’s called fruit salad. Juicy fruits will appear on your keyboard. But be aware of the tomatos, they are genetically modified and will eat other fruits. Trample them down (by pressing the key) before they spread. Don’t mash the healty fruits! 
+      <div class='game'>
+        <input type='text' id='gamestart' value='Start Game' />
+      </div>
+
+      <div class='credits'>
+        <span>Credits</span><br />
+        Written and developed by <b>Simon Huwiler</b><br />
+        More infos at <a href='http://www.journalist.sh' target='_blank'>journalist.sh</a><br />
+        <p class='icons'>Game Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div id='gameoverlay'>
+    <div class='inner'>
+      <div class='clock'>00:59</div>
+      <div class='points'><span id='gamepoints'>0</span> Points</div>
+
+      
+      <img src=<%=require("./images/tomato.png")%> class='icon' /><div class='description'><b>Bad</b> Tomatos smashed: 23</div><div class='clearfix' />
+      <img src=<%=require("./images/banana.png")%> class='icon' /><div class='description'><b>Healthy</b> Fruites killed: 23</div><div class='clearfix' />
+
+      <div class='credits'>
+        <span>Credits</span><br />
+        Written and developed by <b>Simon Huwiler</b><br />
+        More infos at <a href='http://www.journalist.sh' target='_blank'>journalist.sh</a><br />
+        <p class='icons'>Game Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+      </div>
+    </div>
+
+  </div>
+
 
 </body>
 

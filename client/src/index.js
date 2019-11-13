@@ -1,5 +1,7 @@
 //Import CSS
 import './main.scss';
+import { CountUp } from 'countup.js';
+require('text-rotate');
 require('./docReady.js');
 
 const url = 'http://localhost:3030';
@@ -138,6 +140,45 @@ function writingTestWrite(e)
   }
 }
 
+function startGame()
+{
+  document.querySelector('#gameoverlay').style.display = 'block';
+  var points = new CountUp('gamepoints', 0, {duration: 0.2});
+  points.start();
+
+  var seconds = 60;
+  const domClock = document.querySelector('.clock');
+  var clockTimer = setInterval(() => {
+    seconds--;
+    domClock.innerHTML = `00:${seconds > 9 ? seconds : `0${seconds}`}`;
+
+    if(seconds <= 0)
+    {
+      clearInterval(clockTimer);
+      sendRequest('/gamefinished')
+    }
+
+  }, 1000)
+
+  sendRequest('/gamestart')
+
+}
+
+function runYearRorator()
+{
+  var counter = 0;
+  const max = document.querySelectorAll('#chapter_barcharts .inner span').length;
+  const interval = setInterval(() => {
+
+    document.querySelector('#chapter_barcharts .inner').style.top = counter * -50 + 'px';
+
+
+    if(counter >= max - 1)
+      clearInterval(interval)
+    counter++;
+  }, 1000);
+}
+
 
 docReady(function() {
 
@@ -152,6 +193,7 @@ docReady(function() {
   //Init Writing test
   document.querySelector('#chapter_speedtest input').addEventListener('keydown', writingTestWrite)
 
-  
+  document.querySelector('#gamestart').addEventListener('focus', startGame);
 
+  runYearRorator();
 });
