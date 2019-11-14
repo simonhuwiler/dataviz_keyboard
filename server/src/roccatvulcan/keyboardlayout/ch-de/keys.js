@@ -126,7 +126,10 @@ module.exports.KEYMAPPER = {
 
         "KPMINUS": 129,
         "KPPLUS": 130,
-        "KPENTER": 131
+        "KPENTER": 131,
+
+        "WHEELUP": 250,
+        "WHEELDOWN": 251,
 }
 
 module.exports.ALPHANUMERIC = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];

@@ -6,6 +6,7 @@ const consts = require('./consts.js')
 
 const grid = require('./keyboardlayout/ch-de/grid.js');
 const keylist = require('./keyboardlayout/ch-de/keys.js');
+const keybuffer = require('./keyboardlayout/ch-de/keybuffer.js');
 const alphabet = require('./keyboardlayout/ch-de/alphabet.js')
 
 module.exports = class RoccatVulkan
@@ -26,6 +27,34 @@ module.exports = class RoccatVulkan
     //Filter Roccat
     const productId = options.productId ? options.productId : consts.PRODUCTID;
     const roccatDevices = allDevices.filter(d => d.productId === productId)
+
+    if(options.onData)
+    {
+      //Register Read Event. Search for Intterface 1 and usagePage 10. Why? Know Idea. If this not reacts to your keyboard, try to register to other device
+      const keyDevice = roccatDevices.filter(d => d.interface === 1 && d.usagePage === 10)
+      if(keyDevice.length > 0)
+      {
+        try
+        {
+          const readDevice = new HID.HID(keyDevice[0].path);
+          let key = 0;
+          readDevice.on("data", d => {
+            switch(d[2])
+            {
+              case 10: key = keybuffer.KEYREADBUFFER10[d[3]]; break;
+              case 204: key = keybuffer.KEYREADBUFFER204[d[3]]; break;
+              case 251: key = keybuffer.KEYREADBUFFER251[d[3]]; break;
+            }
+            options.onData({key: key, state: d[4]})
+          })
+        }
+        catch(e)
+        {
+          console.log("Could not register onData-Event. Keyboard does not react. Change usePage in Code. Sorry")
+          console.log(e)
+        }
+      }
+    }
 
     //Find LED Interface Number (No 1)
     const ledDeviceInfo = roccatDevices.find(e => e['interface'] ===  consts.LEDINTERFACE)
@@ -77,6 +106,7 @@ module.exports = class RoccatVulkan
       //Callback
       if(options.ready)
         options.ready();
+
     })
   }
 
