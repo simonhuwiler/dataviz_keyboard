@@ -1,7 +1,7 @@
 const keylist = require('./keys.js');
 const consts = require('./../../consts.js')
 
-module.exports.KEYGRID  = [
+module.exports.KEYGRID = [
   //Row #0
   [
     keylist.KEYMAPPER.ESC,
@@ -43,7 +43,7 @@ module.exports.KEYGRID  = [
     keylist.KEYMAPPER['0'],
     keylist.KEYMAPPER["'"],
     keylist.KEYMAPPER['^'],
-    keylist.KEYMAPPER.BACKSPACE,
+    consts.NOKEY,
     keylist.KEYMAPPER.BACKSPACE,
     keylist.KEYMAPPER.INSERT,
     keylist.KEYMAPPER.HOME,
@@ -83,7 +83,6 @@ module.exports.KEYGRID  = [
   ///Row #3
   [
     keylist.KEYMAPPER.CAPSLOCK,
-    keylist.KEYMAPPER.CAPSLOCK,
     keylist.KEYMAPPER['A'],
     keylist.KEYMAPPER['S'],
     keylist.KEYMAPPER['D'],
@@ -97,14 +96,14 @@ module.exports.KEYGRID  = [
     keylist.KEYMAPPER['Ä'],
     keylist.KEYMAPPER['$'],
     consts.NOKEY,
-    keylist.KEYMAPPER.ENTER,
+    consts.NOKEY,
     consts.NOKEY,
     consts.NOKEY,
     consts.NOKEY,
     keylist.KEYMAPPER.KP4,
     keylist.KEYMAPPER.KP5,
     keylist.KEYMAPPER.KP6,
-    // consts.NOKEY
+    consts.NOKEY
   ],
 
   //Row #4
@@ -121,9 +120,9 @@ module.exports.KEYGRID  = [
     keylist.KEYMAPPER[','],
     keylist.KEYMAPPER['.'],
     keylist.KEYMAPPER['-'],
+    consts.NOKEY,
     keylist.KEYMAPPER.RIGHTSHIFT,
-    keylist.KEYMAPPER.RIGHTSHIFT,
-    keylist.KEYMAPPER.RIGHTSHIFT,
+    consts.NOKEY,
     consts.NOKEY,
     keylist.KEYMAPPER.UP,
     consts.NOKEY,
@@ -153,8 +152,8 @@ module.exports.KEYGRID  = [
     keylist.KEYMAPPER.DOWN,
     keylist.KEYMAPPER.RIGHT,
     keylist.KEYMAPPER.KP0,
-    keylist.KEYMAPPER.KP0,
-    keylist.KEYMAPPER.KP0,
+    consts.NOKEY,
+    consts.NOKEY,
     keylist.KEYMAPPER.KPDOT,
     consts.NOKEY
   ]

@@ -161,6 +161,7 @@ module.exports = class RoccatVulkan
       else
       {
         console.log("Wrong color. Bust me hex-string (#ffcc00) or objekct ({r: 255, g: 255, b:255}")
+        console.log(color)
       }
       
       this.currentColors[id] = color;
@@ -398,38 +399,4 @@ module.exports = class RoccatVulkan
       clearInterval(this.autoRender);
   }
 
-
-
-  // columnTest()
-  // {
-  //   var screen = helpers.getKeys('#000000');
-  //   for(let row = 0; row < gridConsts.KEYGRID.length; row++)
-  //   {
-  //     for(let column = 0; column < gridConsts.KEYGRID[row].length; column++)
-  //     {
-  //       const cell = gridConsts.KEYGRID[row][column];
-  //       if(cell === -1)
-  //         continue;
-  //       screen[cell].b = column % 2 === 0 ? 255 : 15;
-  //       screen[cell].r = column % 2 === 0 ? 15 : 255;
-
-  //     }
-  //   }
-  //   controller.sendColorsToKeyboard(this.ledDevice, screen);
-  // }
-
-
-
-  // speedTest()
-  // {
-  //   this.fillAll('#000000');
-  //   var state = 0;
-  //   setInterval(() => {
-  //     if(state % 2 === 0)
-  //       this.updateKey('D', '#ff0000')
-  //     else
-  //       this.updateKey('D', '#000000');
-  //     state++;
-  //   }, 30)
-  // }
 }

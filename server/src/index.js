@@ -2,10 +2,8 @@ const express = require('express')
 const app = express()
 const RoccatVulcan = require('./roccatvulcan');
 const colorGui = require('./colorgui');
-const consts = require('./roccatvulcan/consts.js')
 const Chapters = require('./chapters.js');
-// const grid = require('./roccatvulcan/grid/');
-// const gridconsts = require('./roccatvulcan/grid/consts.js');
+const FruitSalat = require('./fruitsalad')
 
 var keyboard = null;
 var chapters = null;
@@ -73,10 +71,19 @@ app.post("/speedtest", (req, res) => {
 
 app.listen(3030, () => {
   console.log("Start server. Prepare Roccat");
-  
+
+  const game = new FruitSalat();
   keyboard = new RoccatVulcan({
+    onData: (data) => {
+      if(data.state === 0)
+        return
+
+      game.keyPress(data.key)
+    },
     ready: () => {
-      // keyboard.fillAll('#000000')
+      console.log("ready")
+      keyboard.fillAll('#000000')
+      keyboard.render();
       // keyboard.renderStart(50);
 
 
@@ -99,11 +106,16 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
-  keyboard.renderStart(50);
-  chapters.speedTest(520);
+  // keyboard.renderStart(50);
+  // chapters.speedTest(520);
   // keyboard.marquee("ANNE", "#FF0000", 200)
   // keyboard.columnTest();
   // keyboard.marquee("32000", "#FF0000", 100)
+
+  game.setKeyboard(keyboard);
+  game.start();
+  keyboard.renderStart(50);
+
     
   
 
