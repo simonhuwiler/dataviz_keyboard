@@ -31,6 +31,8 @@ app.get('/colorgui', function (req, res) {
 
 app.post('/clear', (req, res) => {
   console.log("clear")
+  chapters.stopChapters();
+  game.stop();
   keyboard.fillAll('#000000')
   res.sendStatus(200);
 });
@@ -51,7 +53,7 @@ app.post("/pong", (req, res) => {
 });
 
 app.post("/barchart", (req, res) => {
-  chapters.barchart(req.body.year)
+  chapters.barchart(parseInt(req.body.year));
   res.sendStatus(200);
 });
 
@@ -70,8 +72,18 @@ app.post("/flags", (req, res) => {
   res.sendStatus(200);
 });
 
+app.post("/fadeflags", (req, res) => {
+  chapters.fadeFlags()
+  res.sendStatus(200);
+});
+
 app.post("/speedtest", (req, res) => {
   chapters.speedTest(req.body.speed)
+  res.sendStatus(200);
+});
+
+app.post("/highlightwasd", (req, res) => {
+  chapters.highlightWASD();
   res.sendStatus(200);
 });
 
@@ -114,5 +126,9 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
+
+  
+  // keyboard.renderStart(50);
+  // chapters.barchart("2012")
 
 });

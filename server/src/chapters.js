@@ -1,8 +1,31 @@
 const keylist = require('./roccatvulcan/keyboardlayout/ch-de/keys.js');
 const grid = require('./roccatvulcan/keyboardlayout/ch-de/grid.js');
 const consts = require('./roccatvulcan/consts.js')
-
+const fruitHelpers = require('./fruitsalad/helpers.js')
 const testtext = 'We dont want to conquer the cosmos, we simply want to extend the boundaries of earth to the frontiers of the cosmos.';
+
+intervalList = [];
+
+denmark = {
+  color1: {
+    keys: ['Q', 'E', 'R', 'T', '<', 'X', 'C', 'V'],
+    color: 'ff0000'
+  },
+  color2: {
+    keys: ['W', 'A', 'S', 'D', 'F', 'Y'],
+    color: '#ffffff'
+  }
+}
+finland = {
+  color1: {
+    keys: ['U', 'O', 'P', 'Ü', 'N', ',', '.', '-'],
+    color: 'ffffff'
+  },
+  color2: {
+    keys: ['J', 'I', 'K', 'M', 'L', 'Ö', 'Ä'],
+    color: '#0000FF'
+  }
+}
 
 module.exports = class Intro
 {
@@ -59,198 +82,67 @@ module.exports = class Intro
 
         // this.keyboard.updateKeys(keys, '#ff0000')
         this.keyboard.animateKeys(keys, '#ff0000', '#000000', 50)
-
       }, 50);
     }
 
     //Animate WASD
-    const keys = ['W', 'A', 'S', 'D']
-    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 2000);
-    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
-    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 3000);
-    this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
+    // const keys = ['W', 'A', 'S', 'D']
+    // this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 2000);
+    // this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
+    // this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ffffff'), 3000);
+    // this.keyboard.animationQueueAdd(() =>  this.keyboard.updateKeys(keys, '#ff0000'), 100);
 
 
-    this.keyboard.animationQueueStart();
-
-
-    /* Einfliegen Tasten
-    const positions = [
-      ['F6', 'F7', 'F8'],
-      ['F5', 'F6', 'F7'],
-      ['F6', '6', '7', '8'],
-      ['7', 'T', 'Z', 'U'],
-      ['6', 'R', 'T', 'Z'],
-      ['T', 'G', 'F', 'H'],
-      ['R', 'D', 'F', 'G'],
-      ['E', 'S', 'D', 'F'],
-      ['W', 'A', 'S', 'D']
-    ];
-
-    var currentPos = 0;
-    const run = callback => {
-      setTimeout(() => {
-
-        //Other chapter already running?
-        if(this.currentChapter !== 'intro')
-          return;
-
-        this.keyboard.updateKeys(positions[currentPos], '#ff0000', '#000000');
-        this.keyboard.render();
-        if(currentPos < positions.length - 1)
-        {
-          currentPos++;
-          run(callback)
-        }
-        else
-          callback();
-      }, 100);
-    }
-
-    run(() => {
-      const keys = Object.keys(keylist.KEYMAPPER).filter(key => !['W', 'A', 'S', 'D'].includes(key))
-
+    this.keyboard.animationQueueStart(() => {
+      //Animation end. Start random colors
+      var keys = Object.keys(keylist.KEYMAPPER).filter(k => !['W', 'A', 'S', 'D', 'WHEELDOWN', 'WHEELUP'].includes(k))
       
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#000000', '#323232', 500), 1000);
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#323232', '#000000', 500), 500);
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#000000', '#323232', 500), 3000);
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#323232', '#000000', 500), 500);
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#000000', '#323232', 500), 3000);
-      this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(keys, '#323232', '#000000', 500), 500);
-      this.keyboard.animationQueueStart();
-    })
-    */
+      var activeKeys = []
 
-    /* Test color scale */
-    // const colorScale = ['#ff0000', '#ff0000', '#ff4000', '#ff5000', '#ff5d00', '#ff6900', '#ff7300', '#ff7e00', '#ff8700', '#ff9000', '#ff9900', '#ffa200', '#ffaa00', '#ffb200', '#ffba00', '#ffc200', '#ffca00', '#ffd200', '#ffd900', '#ffe100', '#ffe900', '#fff000']
-    // var currentIndex = 0;
-    // const fadeIn = callback => {
-    //   setTimeout(() => {
-    //     var keys = []
-    //     const gridRows = grid.KEYGRID.map(row => row.filter((cell, j) => j >= currentIndex * 1 && j < currentIndex * 1 + 1))
-    //     keys = keys.concat(...gridRows)
-    //     keyboard.animateKeys(keys, '#000000', colorScale[currentIndex], 50);
-        
-    //     currentIndex++;
+      const getRandomColor = () => {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
 
-    //     if(currentIndex < 22)
-    //       fadeIn(callback)
-    //     else
-    //       callback();
-    //   }, 55);
-    // };
+      const interval = setInterval(() => {
 
-    // fadeIn(() => {
-    //   //Fade out all except WASD
+        //Remove old Keys
+        for(var ak in activeKeys)
+        {
+          this.keyboard.updateKey(activeKeys[ak], '#000000');
+        }
+        activeKeys = [];
 
-    //       keyboard.animationQueueAdd(() => keyboard.animateKeys(['W', 'A', 'S', 'D'], '#ff2c00', '#0000ff', 100), 100);
-    //       keyboard.animationQueueAdd(() => keyboard.animateKeys(['W', 'A', 'S', 'D'], '#0000ff', '#ff0000', 100), 110);
-    //       keyboard.animationQueueStart();
-    //       // keyboard.animationQueueAdd(() => keyboard.updateKeys(getRandomKeys(50), '#ffcc00'), 1000);
-    //       // keyboard.animationQueueAdd(() => keyboard.updateKeys(['5'], '#ffcc00'), 2000);
-    // });
+        for(var i = 0; i < 3; i++)
+        {
+          const k = fruitHelpers.getRandom(0, keys.length - 1)
+          const randomKey = keys[k]
+          const randomColor = getRandomColor()
+
+          //Add new Key
+          this.keyboard.updateKey(randomKey, randomColor)
+          activeKeys.push(randomKey)
+        }
+      }, 50)
+      
+      intervalList.push(interval);
     
-    /* ********************** RUNDHERUM EINFADEN */
-    // var values = ['ESC'];
-
-    // //Add F1 - F12
-    // for(let i = 1; i <= 12; i++)
-    //   values.push('F' + i)
-
-    // //Add next keys
-    // values = values.concat(['PRTSCR', 'SCROLLLOCK', 'PAUSE', 'NUMLOCK', 'KPSLASH', 'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KPDOT', 'KP0',
-    //   'RIGHT', 'DOWN', 'LEFT', 'RIGHTCTRL', 'COMPOSE', 'FN', 'RIGHTALT', 'SPACE', 'LEFTALT', 'LEFTMETA', 'LEFTCTRL', 'LEFTSHIFT', 'CAPSLOCK',
-    //   'TAB', '§']);
-
-    // //Add Numbers
-    // for(let i = 1; i <= 9; i++)
-    //   values.push(i.toString())
-
-    // //Add Next
-    // values = values.concat(['0', "'", '^', 'BACKSPACE', 'INSERT', 'HOME', 'PAGEUP', 'KP7', 'KP8', 'KP9', 'KP6', 'KP3', 'KP2', 'KP1', 'UP',
-    //   'RIGHTSHIFT', '-', '.', ',', 'M', 'N', 'B', 'V', 'C', 'X', 'Y', '<', 'A', 'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü', '¨',
-    //   'ENTER', 'DELETE', 'END', 'PAGEDOWN', 'KP4', 'KP5', '$', 'Ä', 'Ö', 'L', 'K', 'J', 'H', 'G', 'F', 'D', 'S'])
-
-    // var currentIndex = 0;
-    // const addKey = onFinish => {
-    //   setTimeout(() => {
-    //     keyboard.updateKey(keylist.KEYMAPPER[values[currentIndex]], '#ff0000');
-    //     if(currentIndex < values.length)
-    //     {
-    //       currentIndex++;
-    //       addKey(onFinish);
-    //     }
-    //     else
-    //       onFinish()
-    //   }, 10);
-    // }
-
-    // addKey(() => {
-    //   //Fade out all except WASD
-    //   setTimeout(() => {
-    //     const keys = Object.keys(keylist.KEYMAPPER).filter(key => !['W', 'A', 'S', 'D'].includes(key))
-    //     keyboard.animateKeys(keys, '#ff0000', '#000000', 1500);
-    //   }, 1000);
-    // });
-
-
-
-    // var values = grid.KEYGRID.map(row => row.filter(key => key >= 0).map(key => key))
-    // //Add F1 - F12
-    // values = [].concat(...values);
-
-    // var currentIndex = 0;
-    // const addKey = onFinish => {
-    //   setTimeout(() => {
-    //     keyboard.updateKey(values[currentIndex], '#ff0000');
-    //     if(currentIndex < values.length)
-    //     {
-    //       currentIndex++;
-    //       addKey(onFinish);
-    //     }
-    //     else
-    //       onFinish()
-    //   }, 10);
-    // }
-
-    // addKey(() => {
-    //   console.log("fertig")
-    // });
-    //XX
-
-    // var currentIndex = 0;
-    // const addKey = onFinish => {
-    //   setTimeout(() => {
-    //     keyboard.updateKey(values[currentIndex], '#ff0000');
-    //     if(currentIndex < values.length)
-    //     {
-    //       currentIndex++;
-    //       addKey(onFinish);
-    //     }
-    //     else
-    //       onFinish()
-    //   }, 10);
-    // }
-
-    // addKey(() => {
-    //   console.log("fertig")
-    // });
-
-    // const colors = ['#00ffea', '#00ff48', '#ff000c', '#ff00d2', '#7200ff', '#00ffa2', '#ffea00', '#ff1200']
-
-    // for(let i = 0; i < 200; i++)
-    //   keyboard.animationQueueAdd(() => keyboard.updateKeys(getRandomKeys(1), colors[getRandomInt(0, colors.length)]), 50);
-    // // keyboard.animationQueueAdd(() => keyboard.updateKeys(getRandomKeys(50), '#ffcc00'), 1000);
-    // // keyboard.animationQueueAdd(() => keyboard.updateKeys(['5'], '#ffcc00'), 2000);
-
-    // keyboard.animationQueueStart(function() {
-    // })
+    });
   }
 
   stopChapters()
   {
     this.keyboard.animationQueueStop();
     this.keyboard.fillAll('#000000');
+    for(var i in intervalList)
+    {
+      if(intervalList[i])
+        clearInterval(intervalList[i])
+    }
   }
 
   pong()
@@ -355,7 +247,7 @@ module.exports = class Intro
     var resetList = [... new Set(resetList)];
 
     var iPaddelLeft = 0;
-    setInterval(() => {
+    const interval = setInterval(() => {
 
       if(this.currentChapter !== 'pong')
         return;
@@ -375,15 +267,8 @@ module.exports = class Intro
       //   keyboard.updateKeys(ball[iPaddelLeft - 1], ballColorFade);
       iPaddelLeft++;
     }, 400);
-
-
-    // const NUMBERS = {
-    //   '0': ['KP7', 'KP8', 'KP9', 'KP6', 'KP3', 'KP2', 'KP1', 'KP4'],
-    //   '1': ['KP8', 'KP9', 'KP6', 'KP3'],
-    //   '2': ['KP7', 'KP8', 'KP9', 'KP5', 'KP1', 'KP2', 'KP3']
-    // }
-
-    // keyboard.updateKeys(NUMBERS['2'], numberColor);
+    
+    intervalList.push(interval);
 
 
   }
@@ -410,6 +295,7 @@ module.exports = class Intro
     {
       case 2012:
           this.stopChapters();
+          console.log("2012")
           this.keyboard.animateKeys(['LEFTCTRL', 'LEFTMETA'], '#000000', '#270000', 200);
           break;
       case 2014:
@@ -417,6 +303,7 @@ module.exports = class Intro
           break;
       case 2015:
           this.keyboard.animateKeys(['SPACE'], '#000000', '#5a0000', 200);
+          this.keyboard.animateKeys(['C', 'V'], '#000000', '#270000', 200);
           break;
       case 2016:
           this.keyboard.animateKeys(['B', 'N'], '#000000', '#ff0000', 200);
@@ -447,14 +334,14 @@ module.exports = class Intro
 
      this.currentChapter = 'sixkeys';
      
-     this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], '#000000', '#ff0000', 1000);     
+     this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], '#000000', '#2800d7', 1000);     
   }
 
   sixKeysAfter()
   {
     const sleep = 100;
     const animationTime = 1000;
-    const color = '#ff5a00';
+    const color = '#2800d7';
 
     this.currentChapter = 'sixkeysafter';
 
@@ -476,25 +363,43 @@ module.exports = class Intro
     this.keyboard.animationQueueStart();
   }
 
+
+
   flags()
   {
+    this.stopChapters();
     this.keyboard.fillAll('#000000')
     this.currentChapter = 'sixkeysafter';
 
-    const den1 = '#ff0000';
-    const den2 = '#ffffff';
-    this.keyboard.updateKeys(['Q', 'E', 'R', 'T', '<', 'X', 'C', 'V'], den1)
-    this.keyboard.updateKeys(['W', 'A', 'S', 'D', 'F', 'Y'], den2)
+    // this.keyboard.updateKeys(denmark.color1.keys, denmark.color1.color);
+    // this.keyboard.updateKeys(denmark.color2.keys, denmark.color2.color);
+    
+    // this.keyboard.updateKeys(finland.color1.keys, finland.color1.color);
+    // this.keyboard.updateKeys(finland.color2.keys, finland.color2.color);
 
-    const fin1 = '#ffffff';
-    const fin2 = '#0000FF';
-    this.keyboard.updateKeys(['U', 'O', 'P', 'Ü', 'N', ',', '.', '-'], fin1);
-    this.keyboard.updateKeys(['J', 'I', 'K', 'M', 'L', 'Ö', 'Ä'], fin2);
+    
+    const duration = 500;
+    this.keyboard.animateKeys(denmark.color1.keys, '#000000', denmark.color1.color, duration);
+    this.keyboard.animateKeys(denmark.color2.keys, '#000000', denmark.color2.color, duration);
+
+    this.keyboard.animateKeys(finland.color1.keys, '#000000', finland.color1.color, duration);
+    this.keyboard.animateKeys(finland.color2.keys, '#000000', finland.color2.color, duration);
+    
+  }
+
+  fadeFlags()
+  {
+    const duration = 500;
+    this.keyboard.animateKeys(denmark.color1.keys, denmark.color1.color, '#000000', duration);
+    this.keyboard.animateKeys(denmark.color2.keys, denmark.color2.color, '#000000', duration);
+
+    this.keyboard.animateKeys(finland.color1.keys, finland.color1.color, '#000000', duration);
+    this.keyboard.animateKeys(finland.color2.keys, finland.color2.color, '#000000', duration);
   }
 
   speedTest(speed)
   {
-    
+    this.stopChapters();
     var text = testtext.split("").map(char => {
       if(char === ' ')
         return 'SPACE'
@@ -503,7 +408,7 @@ module.exports = class Intro
 
     const keysPerSecond = 60 / speed;
     var currentKey = 0;
-    setInterval(() => {
+    const interval = setInterval(() => {
       this.keyboard.updateKey(text[currentKey], '#ff0000', '#000000');
       currentKey++;
       if(currentKey > testtext.length)
@@ -511,5 +416,12 @@ module.exports = class Intro
 
     }, keysPerSecond * 1000);
 
+    intervalList.push(interval)
+  }
+
+  highlightWASD()
+  {
+    this.stopChapters();
+    this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#ffcc00', 1000)
   }
 }

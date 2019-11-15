@@ -2,6 +2,7 @@ const grid = require('../roccatvulcan/keyboardlayout/ch-de/grid.js');
 const gameConsts = require('./consts.js');
 const consts = require('../roccatvulcan/consts.js')
 const helpers = require('../roccatvulcan/helpers.js');
+const fruitHelpers = require('./helpers.js')
 
 module.exports = class FruitSalat
 {
@@ -33,7 +34,6 @@ module.exports = class FruitSalat
     }
 
     this.speed = 1500;
-    this.render();
   }
 
   setKeyboard(k)
@@ -61,8 +61,8 @@ module.exports = class FruitSalat
     var cellY = -1;
     while(!found)
     {
-      cellX = getRandom(0, this.playfield[0].length - 1);
-      cellY = getRandom(0, this.playfield.length - 1);
+      cellX = fruitHelpers.getRandom(0, this.playfield[0].length - 1);
+      cellY = fruitHelpers.getRandom(0, this.playfield.length - 1);
   
       if(this.isPotentialKey(grid.KEYGRID[cellY][cellX]) && this.playfield[cellY][cellX].id === gameConsts.fruits.frNone.id)
       {
@@ -73,14 +73,14 @@ module.exports = class FruitSalat
     //Spot found. Decide which fruit
     //Tomate or fruit? 1 Tomate of 2 other fruits
     var fruit = null;
-    if(getRandom(0, 10) < 5)
+    if(fruitHelpers.getRandom(0, 10) < 5)
     {
       fruit = Object.assign({}, gameConsts.fruits.frTomato);
       fruit.lifespan = gameConsts.lifespanTomate;
     }
     else
     {
-      fruit = Object.assign({}, gameConsts.fruits[this.healthyFruits[getRandom(0, this.healthyFruits.length - 1)]]);
+      fruit = Object.assign({}, gameConsts.fruits[this.healthyFruits[fruitHelpers.getRandom(0, this.healthyFruits.length - 1)]]);
       fruit.lifespan = gameConsts.lifespanFruit;
     }
 
@@ -93,7 +93,7 @@ module.exports = class FruitSalat
      {
       setTimeout(() => {
         this.interval();
-      }, getRandom(this.speed / 2, this.speed + this.speed / 2));
+      }, fruitHelpers.getRandom(this.speed / 2, this.speed + this.speed / 2));
     }
   }
 
@@ -109,6 +109,8 @@ module.exports = class FruitSalat
         this.speed -= 300;
         
     }, 5 * 1000);
+
+    this.render();
     
   }
 
@@ -200,10 +202,10 @@ module.exports = class FruitSalat
               }
               else
               {
-                //Fade Tomato
-                color = helpers.hexToRgb(gameConsts.fruits.frTomato.color);
-                color.r = color.r - Math.round(color.r / gameConsts.tomateFadeDuration * ( delta - fruit.lifespan ));
-
+                //Blink Tomato
+                // color = helpers.hexToRgb(gameConsts.fruits.frTomato.color);
+                // color.r = color.r - Math.round(color.r / gameConsts.tomateFadeDuration * ( delta - fruit.lifespan ));
+                color = delta % 2 === 0 ? helpers.hexToRgb(gameConsts.fruits.frTomato.color) : helpers.hexToRgb('#000000');
               }
             }
           }
@@ -282,10 +284,4 @@ module.exports = class FruitSalat
   getScore(){
     return this.score;
   }
-}
-
-function getRandom(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

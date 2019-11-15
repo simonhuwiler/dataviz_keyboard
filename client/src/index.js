@@ -33,7 +33,7 @@ var scrollEvents = [
   },
   {
     selector: '#chapter_fast',
-    event: () => sendRequest('/clear')
+    event: () => sendRequest('/fadeflags')
   },
   {
     selector: '#chapter_speedtest',
@@ -53,11 +53,11 @@ var scrollEvents = [
   },
   {
     selector: '#chapter_finish',
-    event: () => sendRequest('/clear')
+    event: () => sendRequest('/highlightwasd')
   },
   {
     selector: '#chapter_letsplay',
-    event: () => sendRequest('/clear')
+    event: () => {}
   }
 ];
 
