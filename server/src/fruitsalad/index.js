@@ -224,7 +224,9 @@ module.exports = class FruitSalat
 
   keyPress(key)
   {
-    console.log(key)
+    if(!this.running)
+      return
+
     //find grid pos
     var row = -1;
     var cell = -1;

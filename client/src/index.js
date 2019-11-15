@@ -1,13 +1,10 @@
 //Import CSS
 import './main.scss';
 import { CountUp } from 'countup.js';
-require('text-rotate');
 require('./docReady.js');
 
 const url = 'http://localhost:3030';
 const writingtext = 'We dont want to conquer the cosmos, we simply want to extend the boundaries of earth to the frontiers of the cosmos.';
-
-// const anime = require('animejs/lib/anime.js');
 
 const scrollOffset = -100;
 var scrollEventsCalculated = false;
@@ -20,11 +17,47 @@ var scrollEvents = [
   },
   {
     selector: '#chapter_barcharts',
-    event: () => sendRequest('/barcharts')
+    event: () => startYearRotator()
   },
   {
     selector: '#chapter_keys',
-    event: () => sendRequest('/keys')
+    event: () => sendRequest('/sixkeys')
+  },
+  {
+    selector: '#chapter_keysafter',
+    event: () => sendRequest('/sixkeysafter')
+  },
+  {
+    selector: '#chapter_flags',
+    event: () => sendRequest('/flags')
+  },
+  {
+    selector: '#chapter_fast',
+    event: () => sendRequest('/clear')
+  },
+  {
+    selector: '#chapter_speedtest',
+    event: () => sendRequest('/clear')
+  },
+  {
+    selector: '#chapter_yourspeed',
+    event: () => sendRequest('/speedtest', {speed: writingSpeed})
+  },
+  {
+    selector: '#chapter_speed400',
+    event: () => sendRequest('/speedtest', {speed: 400})
+  },
+  {
+    selector: '#chapter_speed818',
+    event: () => sendRequest('/speedtest', {speed: 818})
+  },
+  {
+    selector: '#chapter_finish',
+    event: () => sendRequest('/clear')
+  },
+  {
+    selector: '#chapter_letsplay',
+    event: () => sendRequest('/clear')
   }
 ];
 
@@ -40,7 +73,10 @@ function getOffset(element)
 function updateScrollPosition()
 {
   scrollEvents.forEach(e => {
-    e.top = getOffset(document.querySelector(e.selector));
+    let el = document.querySelector(e.selector);
+    if(!el)
+      throw(`Element ${e.selector} not found`);
+    e.top = getOffset(el);
   });
   scrollEventsCalculated = true;
 }
@@ -73,15 +109,19 @@ function onScroll()
   }
 }
 
-function sendRequest(param, data)
+function sendRequest(param, data, callback)
 {
-  return;
+  console.log("Request", param, data);
   const request = new XMLHttpRequest();
   request.open("POST", url + param);
   request.setRequestHeader("Content-Type", "application/json");
-  request.send(JSON.stringify(data));
+  const req = data ? JSON.stringify(data) : JSON.stringify({});
+  request.send(req);
   request.onreadystatechange = (e) => {
-    console.log(request.responseText)
+    if(request.readyState === 4 && callback)
+    {
+      callback(request.responseText)
+    }
   }
 }
 
@@ -91,7 +131,7 @@ var wtRunning = false;
 var wtTimer = null;
 var wtStart = null;
 var wtEnd = null;
-
+var writingSpeed = 0;
 
 function writingTestWrite(e)
 {
@@ -126,17 +166,26 @@ function writingTestWrite(e)
     document.querySelector('.textsample').innerHTML = `<span class='typed'>${writingtext.slice(0, wtCurrentPos)}</span>${writingtext.slice(wtCurrentPos)}`;
   }
 
+  //Test finished
   if(wtCurrentPos >= writingtext.length)
   {
     document.querySelector('#chapter_speedtest input').disabled = true;
     clearInterval(wtTimer);
     document.querySelector('#chapter_speedtest .timer').style.display = 'none';
+
     wtEnd = new Date();
 
     //Calculate Writing speed.
     let s = Math.abs(wtEnd - wtStart) / 1000;
-    let kPerM = wtCount / s * 60;
-    document.querySelector('#yourwritingspeed').innerHTML = Math.round(kPerM)
+    writingSpeed = Math.round(wtCount / s * 60);
+    document.querySelector('#yourwritingspeed').innerHTML = writingSpeed;
+
+    //Scroll to next chapter
+    const element = document.querySelector('#chapter_yourspeed');
+    let bodyRect = document.body.getBoundingClientRect();
+    let elemRect = element.getBoundingClientRect();
+    const scrollTo = elemRect.top - bodyRect.top;
+    window.scrollTo({ top: scrollTo, left: 0, behavior: "smooth" });
   }
 }
 
@@ -155,23 +204,40 @@ function startGame()
     if(seconds <= 0)
     {
       clearInterval(clockTimer);
-      sendRequest('/gamefinished')
+      clearInterval(scoreInterval);
+      sendRequest('/gamestop')
     }
 
   }, 1000)
+
+  //Call for Scores
+  var scoreInterval = setInterval(() => {
+    const domPoints = document.querySelector('#gameoverlay .gamepoints');
+    const domTomatoes = document.querySelector('#gameoverlay .tomatoessmashed');
+    const domFruits = document.querySelector('#gameoverlay .fruitssmashed');
+
+    sendRequest('/gamescore', null, d => {
+      const score = JSON.parse(d)
+      domPoints.innerHTML = score.points;
+      domTomatoes.innerHTML = score.tomatoesSmashed;
+      domFruits.innerHTML = score.fruitsSmashed;
+
+    })
+  }, 500);
 
   sendRequest('/gamestart')
 
 }
 
-function runYearRorator()
+function startYearRotator()
 {
   var counter = 0;
   const max = document.querySelectorAll('#chapter_barcharts .inner span').length;
+  const spans = document.querySelectorAll(`#chapter_barcharts .inner span`);
   const interval = setInterval(() => {
 
     document.querySelector('#chapter_barcharts .inner').style.top = counter * -50 + 'px';
-
+    sendRequest('/barchart', {year: spans[counter].innerHTML})
 
     if(counter >= max - 1)
       clearInterval(interval)
@@ -193,7 +259,33 @@ docReady(function() {
   //Init Writing test
   document.querySelector('#chapter_speedtest input').addEventListener('keydown', writingTestWrite)
 
+  //Game Listener
   document.querySelector('#gamestart').addEventListener('focus', startGame);
 
-  runYearRorator();
+  //Clear all
+  sendRequest('/clear')
+
+  //Register Run Key
+  document.querySelector('#play').addEventListener('click', () => {
+    var percentage = 0;
+
+    document.querySelector('.progress').style.display = 'block';
+    const bar = document.querySelector('.progress .inner');
+    const label = document.querySelector('.progress .inner span');
+
+    const interval = setInterval(() => {
+      percentage++;
+      bar.style.width = percentage + '%';
+      label.innerHTML = percentage + '%';
+
+
+      if(percentage >= 100)
+      {
+        clearInterval(interval);
+        document.querySelector('#start').style.display = 'none';
+        document.querySelector('.intro').classList.add('go');
+        sendRequest('/intro')
+      }
+    }, 15)
+  })
 });

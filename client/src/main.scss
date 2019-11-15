@@ -6,6 +6,57 @@ body
   font-family: "Rubik", sans-serif;
 }
 
+#start
+{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  text-align: center;
+
+  #play
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .progress
+  {
+    display: none;
+    background-color: rgb(205, 205, 205);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 25px;
+    transform: translate(-50%, -50%);
+
+    .inner
+    {
+      height: 100%;
+      width: 0%;
+      background-color: blue;
+
+      span
+      {
+        color: white;
+        font-size: 0.6em;
+        text-align: center;
+        display: block;
+        padding: 6px;
+        margin: 0;
+      }
+    }
+  }
+}
+
 .chapter
 {
   height: 100vh;
@@ -86,7 +137,7 @@ body
   transform: translate(-50%, -50%);
   font-size: 2em;
   color: grey;
-  height: 51px;
+  height: 50px;
   overflow: hidden;
 
   .inner
@@ -95,6 +146,7 @@ body
     transition: all 0.5s ease 0s;
     span
     {
+      height: 50px;
       display: block;
     }
   }
@@ -232,30 +284,17 @@ svg.intro {
     .text-stroke {
       fill: none;
       stroke: #3e3e3e;
-      stroke-width: 8px;
-      stroke-dashoffset: -900;
+      stroke-width: 4px;
+      stroke-dashoffset: -100;
       stroke-dasharray: 900;
       stroke-linecap: butt;
       stroke-linejoin: round;
-      animation: dash 2.5s ease-in-out forwards;
+      animation: dash 1.0s ease-out forwards;
     }
 
     .text-stroke:nth-child(2) {
       animation-delay: .3s;
     }
-    .text-stroke:nth-child(3) {
-      animation-delay: .9s;
-    }
-    // .text-stroke-2 {
-    //   stroke: #000000;
-    //   animation-delay: 1.2s;
-    // }
-    // .text-stroke:nth-child(5) {
-    //   animation-delay: 1.5s;
-    // }
-    // .text-stroke:nth-child(6) {
-    //   animation-delay: 1.8s;
-    // }
   }
 }
 

@@ -61,7 +61,7 @@ module.exports = class RoccatVulkan
 
     if(!ledDeviceInfo) 
     {
-      raise("LED Device not found")
+      throw("LED Device not found. Change the productId!")
     }
 
     //Open LED Device

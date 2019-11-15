@@ -413,7 +413,6 @@ module.exports = class Intro
           this.keyboard.animateKeys(['LEFTCTRL', 'LEFTMETA'], '#000000', '#270000', 200);
           break;
       case 2014:
-        console.log("2014a")
           this.keyboard.animateKeys(['LEFTALT'], '#000000', '#5a0000', 200);
           break;
       case 2015:
