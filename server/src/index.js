@@ -88,6 +88,7 @@ app.post("/highlightwasd", (req, res) => {
 });
 
 app.post("/gamestart", (req, res) => {
+  chapters.stopChapters();
   game.start();
   res.sendStatus(200);
 });

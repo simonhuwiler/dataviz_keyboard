@@ -111,7 +111,6 @@ function onScroll()
 
 function sendRequest(param, data, callback)
 {
-  console.log("Request", param, data);
   const request = new XMLHttpRequest();
   request.open("POST", url + param);
   request.setRequestHeader("Content-Type", "application/json");

@@ -422,6 +422,17 @@ module.exports = class Intro
   highlightWASD()
   {
     this.stopChapters();
-    this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#ffcc00', 1000)
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#000000', '#ffcc00', 2000), 0);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#ffcc00', '#3224ee', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#3224ee', '#d324ee', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#d324ee', '#55bc18', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#55bc18', '#ff0000', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#ff0000', '#ffcc00', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#ffcc00', '#3224ee', 2000), 2000);
+    this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['W', 'A', 'S', 'D'], '#3224ee', '#ff0000', 2000), 2000);
+
+
+
+    this.keyboard.animationQueueStart();
   }
 }

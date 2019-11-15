@@ -91,8 +91,8 @@ module.exports = class FruitSalat
 
     if(this.running)
      {
-      setTimeout(() => {
-        this.interval();
+       setTimeout(() => {
+         this.interval();
       }, fruitHelpers.getRandom(this.speed / 2, this.speed + this.speed / 2));
     }
   }
@@ -219,6 +219,7 @@ module.exports = class FruitSalat
 
   stop()
   {
+    console.log("Stop Fruit Salad")
     this.running = false;
     clearInterval(this.renderInterval)
     clearInterval(this.speedInterval);

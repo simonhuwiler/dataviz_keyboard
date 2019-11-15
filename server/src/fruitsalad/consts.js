@@ -41,8 +41,12 @@ module.exports.lifespanFruit = 8000;
 module.exports.excludeKeys = [
   keys.KEYMAPPER.TAB,
   keys.KEYMAPPER.PRTSCR,
+  keys.KEYMAPPER.F1,
+  keys.KEYMAPPER.F3,
   keys.KEYMAPPER.F5,
+  keys.KEYMAPPER.F11,
   keys.KEYMAPPER.PAGEDOWN,
   keys.KEYMAPPER.PAGEUP,
-  keys.KEYMAPPER.F11
+  keys.KEYMAPPER.LEFTMETA,
+  keys.KEYMAPPER.COMPOSE
 ];
