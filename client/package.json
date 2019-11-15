@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
-    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --open",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --open",
     "build": "webpack --mode production"
   },
   "repository": {
