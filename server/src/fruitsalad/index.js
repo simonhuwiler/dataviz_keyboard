@@ -153,6 +153,10 @@ module.exports = class FruitSalat
               //Tomate faded out. SPREAD!
               if(delta >= fruit.lifespan + gameConsts.tomateFadeDuration)
               {
+
+                //Subtrackt Points
+                this.score.points -50;
+
                 color = helpers.hexToRgb(gameConsts.fruits.frTomato.color);
                 color.r = 0;
 

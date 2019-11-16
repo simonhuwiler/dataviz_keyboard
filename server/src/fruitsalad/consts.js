@@ -45,6 +45,7 @@ module.exports.excludeKeys = [
   keys.KEYMAPPER.F3,
   keys.KEYMAPPER.F5,
   keys.KEYMAPPER.F11,
+  keys.KEYMAPPER.F12,
   keys.KEYMAPPER.PAGEDOWN,
   keys.KEYMAPPER.PAGEUP,
   keys.KEYMAPPER.LEFTMETA,

@@ -266,7 +266,7 @@ module.exports = class Intro
       // if(iPaddelLeft > 0 && ball[iPaddelLeft] !== ball[iPaddelLeft - 1])
       //   keyboard.updateKeys(ball[iPaddelLeft - 1], ballColorFade);
       iPaddelLeft++;
-    }, 400);
+    }, 200);
     
     intervalList.push(interval);
 
@@ -295,7 +295,6 @@ module.exports = class Intro
     {
       case 2012:
           this.stopChapters();
-          console.log("2012")
           this.keyboard.animateKeys(['LEFTCTRL', 'LEFTMETA'], '#000000', '#270000', 200);
           break;
       case 2014:
@@ -333,18 +332,31 @@ module.exports = class Intro
      this.stopChapters();
 
      this.currentChapter = 'sixkeys';
+     const cDark = '#2900dc';
+     const cLight = '#7850ff';
+     const duration = 800;
      
-     this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], '#000000', '#2800d7', 1000);     
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], '#000000', cDark, duration), 0);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cDark, cLight, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cLight, cDark, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cDark, cLight, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cLight, cDark, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cDark, cLight, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cLight, cDark, duration), duration);
+     this.keyboard.animationQueueAdd(() => this.keyboard.animateKeys(['G', 'H', 'J', 'B', 'Z', 'N'], cDark, cLight, duration), duration);
+
+     this.keyboard.animationQueueStart();
   }
 
   sixKeysAfter()
   {
     const sleep = 100;
     const animationTime = 1000;
-    const color = '#2800d7';
+    const color = '#7850ff';
 
     this.currentChapter = 'sixkeysafter';
 
+    this.keyboard.animationQueueStop();
     this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['T', 'F', 'V', 'SPACE', 'M', 'K', 'U', '7', '6'], '#000000', color, animationTime), sleep);
     this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['C', 'D', 'R', '5', '8', 'I', 'L', ','], '#000000', color, animationTime), sleep);
     this.keyboard.animationQueueAdd(() =>  this.keyboard.animateKeys(['X', 'S', 'E', '4', 'F4', 'F5', 'F6', 'F7', '9', 'O', 'Ö', '.'], '#000000', color, animationTime), sleep);
@@ -409,7 +421,7 @@ module.exports = class Intro
     const keysPerSecond = 60 / speed;
     var currentKey = 0;
     const interval = setInterval(() => {
-      this.keyboard.updateKey(text[currentKey], '#ff0000', '#000000');
+      this.keyboard.updateKey(text[currentKey], '#ffffff', '#000000');
       currentKey++;
       if(currentKey > testtext.length)
         currentKey = 0;
