@@ -155,7 +155,7 @@ module.exports = class FruitSalat
               {
 
                 //Subtrackt Points
-                this.score.points -50;
+                this.score.points -= 50;
 
                 color = helpers.hexToRgb(gameConsts.fruits.frTomato.color);
                 color.r = 0;
