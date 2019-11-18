@@ -188,8 +188,12 @@ function writingTestWrite(e)
   }
 }
 
+var gameRunning = false;
 function startGame()
 {
+  if(gameRunning)
+    return;
+  gameRunning = true;
   document.querySelector('#gameoverlay').style.display = 'block';
   var points = new CountUp('gamepoints', 0, {duration: 0.2});
   points.start();
