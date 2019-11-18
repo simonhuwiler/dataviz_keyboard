@@ -8,6 +8,9 @@ This module was developed for an interactive data visualisation. Have a look:
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 ## Installation
+### Now
+Clone the git repository or copy the folder to your project
+### Later
 `npm install roccatvulcan`
 
 ## Using
@@ -144,10 +147,11 @@ The data parameter is an object with two states:
 * `state`: The state: 1 = pressed, 0 = released
 
 
-## Turn of an Key
+## Turn of a Key
 To turn of a key, you need to send the color (#000000) black to the keyboard.
 `keyboard.fillAll('#000000');`
 
 ## Project made with this library
 * DataViz about eSports: https://github.com/simonhuwiler/dataviz_keyboard
+
 Write me to be listed here!
