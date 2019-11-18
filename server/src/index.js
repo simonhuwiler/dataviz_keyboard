@@ -110,7 +110,7 @@ app.listen(3030, () => {
 
   keyboard = new RoccatVulcan({
     'layout': 'ch-de',
-    onData: (data) => {
+    onData: data => {
       if(data.state === 0)
         return
 

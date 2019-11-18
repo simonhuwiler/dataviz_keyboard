@@ -4,8 +4,6 @@ const helpers = require('./helpers.js');
 const controller = require('./controller.js');
 const consts = require('./consts.js')
 
-
-
 module.exports = class RoccatVulkan
 {
   constructor(options)
