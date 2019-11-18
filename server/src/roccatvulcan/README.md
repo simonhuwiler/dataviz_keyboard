@@ -107,7 +107,7 @@ Writes text the same way as `write` but let the text scroll over the keyboard. L
 You can queue animations and run them at will. Use the AnimationQueue for that purpose.  
 
 ### Add Animation to Queue
-`keyboard.animationQueueAdd(animation, timeout);`
+`keyboard.animationQueueAdd(animation, timeout);`  
 Params:
 * `animation`: Function which will be triggered.
 * `timeout`: After how many milliseconds **after the last animation** this animation should be triggered
@@ -148,7 +148,7 @@ The data parameter is an object with two states:
 
 
 ## Turn of a Key
-To turn of a key, you need to send the color (#000000) black to the keyboard.
+To turn of a key, you need to send the color (#000000) black to the keyboard.  
 `keyboard.fillAll('#000000');`
 
 ## Project made with this library
