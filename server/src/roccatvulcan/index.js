@@ -61,7 +61,12 @@ module.exports = class RoccatVulkan
 
     if(!ledDeviceInfo) 
     {
-      throw("LED Device not found. Change the productId!")
+      const msg = 'Could not find Keyboard (LED Device). You need to update the productId. This products are connected to your computer:'
+      console.log(msg)
+      //roccatDevices.forEach(d => console.log(`${d.productId}: ${d.}))
+      const dev = allDevices.filter(d => d.manufacturer && d.manufacturer.toLowerCase() === 'roccat');
+      console.log(dev)
+      throw(msg)
     }
 
     //Open LED Device
