@@ -105,7 +105,9 @@ app.post("/gamescore", (req, res) => {
 app.listen(3030, () => {
   console.log("Start server. Prepare Roccat");
 
+  //Init Fruit Salad Game
   game = new FruitSalat();
+
   keyboard = new RoccatVulcan({
     onData: (data) => {
       if(data.state === 0)
@@ -127,9 +129,5 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
-
-  
-  // keyboard.renderStart(50);
-  // chapters.barchart("2012")
 
 });
