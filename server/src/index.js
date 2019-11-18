@@ -109,6 +109,7 @@ app.listen(3030, () => {
   game = new FruitSalat();
 
   keyboard = new RoccatVulcan({
+    'layout': 'ch-de',
     onData: (data) => {
       if(data.state === 0)
         return
@@ -129,5 +130,4 @@ app.listen(3030, () => {
     }
   });
   chapters = new Chapters(keyboard);
-
 });

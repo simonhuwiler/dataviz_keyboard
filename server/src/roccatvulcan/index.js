@@ -4,16 +4,20 @@ const helpers = require('./helpers.js');
 const controller = require('./controller.js');
 const consts = require('./consts.js')
 
-const grid = require('./keyboardlayout/ch-de/grid.js');
-const keylist = require('./keyboardlayout/ch-de/keys.js');
-const keybuffer = require('./keyboardlayout/ch-de/keybuffer.js');
-const alphabet = require('./keyboardlayout/ch-de/alphabet.js')
+
 
 module.exports = class RoccatVulkan
 {
   constructor(options)
   {
     options = options ? options : {};
+
+    //Import Keyboard layout
+    const layout = 'layout' in options ? options.layout : 'ch-de';
+    this.grid = require(`./keyboardlayout/${layout}/grid.js`);
+    this.keylist = require(`./keyboardlayout/${layout}/keys.js`);
+    this.keybuffer = require(`./keyboardlayout/${layout}/keybuffer.js`);
+    this.alphabet = require(`./keyboardlayout/${layout}/alphabet.js`)
     
     console.log("Initialize Vulcan")
     
@@ -41,9 +45,9 @@ module.exports = class RoccatVulkan
           readDevice.on("data", d => {
             switch(d[2])
             {
-              case 10: key = keybuffer.KEYREADBUFFER10[d[3]]; break;
-              case 204: key = keybuffer.KEYREADBUFFER204[d[3]]; break;
-              case 251: key = keybuffer.KEYREADBUFFER251[d[3]]; break;
+              case 10: key = this.keybuffer.KEYREADBUFFER10[d[3]]; break;
+              case 204: key = this.keybuffer.KEYREADBUFFER204[d[3]]; break;
+              case 251: key = this.keybuffer.KEYREADBUFFER251[d[3]]; break;
             }
             options.onData({key: key, state: d[4]})
           })
@@ -146,13 +150,13 @@ module.exports = class RoccatVulkan
       if(typeof(key) === 'string')
       {
 
-        if(!(key in keylist.KEYMAPPER))
+        if(!(key in this.keylist.KEYMAPPER))
         {
           console.log("Key " + key + " not found in Keylist");
           return;
         }
     
-        id = keylist.KEYMAPPER[key];
+        id = this.keylist.KEYMAPPER[key];
       }
   
       if(typeof color === "string")
@@ -234,12 +238,12 @@ module.exports = class RoccatVulkan
     const rgbColor = helpers.hexToRgb(color);
 
     //Create empty binary grid
-    var binaryGrid = grid.KEYGRID.map(row => row.map(cell => 0));
+    var binaryGrid = this.grid.KEYGRID.map(row => row.map(cell => 0));
 
     var gridPos = keyOffset;
     for(let i = 0; i < text.length; i++)
     {
-      const char = alphabet[text.charAt(i)];
+      const char = this.alphabet[text.charAt(i)];
       for(let row = 0; row < char.length; row++)
       {
         for(let column = 0; column < char[row].length; column++)
@@ -258,13 +262,13 @@ module.exports = class RoccatVulkan
       {
         for(let column = 0; column < binaryGrid[row].length; column++)
         {
-          if(column > grid.KEYGRID[row].length)
+          if(column > this.grid.KEYGRID[row].length)
             break
   
           //Search corresponding key
-          if(binaryGrid[row][column] === 1 && gridConsts.KEYGRID[row][column] != gridConsts.NOKEY)
+          if(binaryGrid[row][column] === 1 && this.grid.KEYGRID[row][column] != consts.NOKEY)
           {
-            screen[gridConsts.KEYGRID[row][column]] = rgbColor;
+            screen[this.grid.KEYGRID[row][column]] = rgbColor;
           }
         }
       }
@@ -279,17 +283,17 @@ module.exports = class RoccatVulkan
     const rgbColor = helpers.hexToRgb(color);
 
     //Create empty binary grid
-    var binaryGrid = gridConsts.KEYGRID.map(row => row.map(cell => 0));
+    var binaryGrid = this.grid.KEYGRID.map(row => row.map(cell => 0));
 
     //Create textgrid
     var textGrid = [[], [], [], [], [], []];
 
-    const emptyLine = new Array(6).fill(new Array(gridConsts.SPACEBETWEEN).fill(0));
+    const emptyLine = new Array(6).fill(new Array(consts.SPACEBETWEEN).fill(0));
     // const emptyLine = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
     
     for(let i = 0; i < text.length; i++)
     {
-      const char = alphabet[text.charAt(i)];
+      const char = this.alphabet[text.charAt(i)];
       textGrid = textGrid.map((row, j) => row.concat(emptyLine[j]).concat(char[j]))
     }
 
@@ -313,13 +317,13 @@ module.exports = class RoccatVulkan
       {
         for(let column = 0; column < binaryGrid[row].length; column++)
         {
-          if(column > gridConsts.KEYGRID[row].length)
+          if(column > this.grid.KEYGRID[row].length)
             break
   
           //Search corresponding key
-          if(binaryGrid[row][column] === 1 && gridConsts.KEYGRID[row][column] != gridConsts.NOKEY)
+          if(binaryGrid[row][column] === 1 && this.grid.KEYGRID[row][column] != consts.NOKEY)
           {
-            screen[gridConsts.KEYGRID[row][column]] = rgbColor;
+            screen[this.grid.KEYGRID[row][column]] = rgbColor;
           }
         }
       }
