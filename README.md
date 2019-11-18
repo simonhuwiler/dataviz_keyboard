@@ -15,7 +15,7 @@ For more information, have a look at my website: www.journalist.sh
 * clone this Repository
 * open folder `client` in terminal and run `npm install`
 * open folder `server` in terminal and run `npm install`
-* Update your Keyboard ID. See [API-Documentation](../blob/master/server/src/roccatvulcan)
+* Update your Keyboard ID. See [API-Documentation](blob/master/server/src/roccatvulcan/README.md)
 
 ## Run Story:
 * Start Server: `npm start` in folder `server`
@@ -23,7 +23,7 @@ For more information, have a look at my website: www.journalist.sh
 
 ## Connection to Keyboard
 The server talks to the keyboard per HID, therefore it should run on Mac and Linux. But it is tested only on windows.  
-For communicating with the Roccat Vulcan, I wrote an API. See the documentation at [server/src/roccatvulcan](../blob/master/server/src/roccatvulcan) The api will soon be released as an own repository.
+For communicating with the Roccat Vulcan, I wrote an API. See the documentation at [server/src/roccatvulcan](blob/master/server/src/roccatvulcan/README.md) The api will soon be released as an own repository.
 
 ## Slides of the story
 ### Intro
