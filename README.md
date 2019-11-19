@@ -7,8 +7,8 @@ See the Result in the video below. In the Story there are:
 
 For more information, have a look at my website: www.journalist.sh
 ## Demo / Video
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=D0B6WE92s6I
-" target="_blank"><img src="http://img.youtube.com/vi/D0B6WE92s6I/0.jpg" 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=fifkWMU1qL0
+" target="_blank"><img src="http://img.youtube.com/vi/fifkWMU1qL0/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 ## Requirement
