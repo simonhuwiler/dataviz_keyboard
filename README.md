@@ -25,9 +25,14 @@ alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 * Start Server: `npm start` in folder `server`
 * Start Client: `npm start` in folder `client`
 
-## Connection to Keyboard
+## Keyboard API
 The server talks to the keyboard per HID, therefore it should run on Mac and Linux. But it is tested only on windows.  
-For communicating with the Roccat Vulcan, I wrote an API. See the documentation at [server/src/roccatvulcan](./server/src/roccatvulcan/README.md) The api will soon be released as an own repository.
+The API to connect to your Roccat Vulcan is no published.  Installation:
+`npm install roccatvulcan`  
+More information:
+* GitRepo: https://github.com/simonhuwiler/roccatvulcan
+* npm: https://www.npmjs.com/package/roccatvulcan
+
 
 ## Slides of the story
 ### Intro

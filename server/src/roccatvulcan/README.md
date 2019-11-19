@@ -1,3 +1,10 @@
+# DEPRICATED
+This Readme is depricated. The API is released as an own npm package. Have a look at:
+* GitRepo: https://github.com/simonhuwiler/roccatvulcan
+* npm: https://www.npmjs.com/package/roccatvulcan
+
+Installation: `npm install roccatvulcan`
+
 # Roccat Vulcan API
 With this Node Module you can control your Roccat Vulcan Keyboard. Bring your keyboard to life!  
 
