@@ -9,7 +9,8 @@ For more information, have a look at my website: www.journalist.sh
 ## Demo / Video
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=fifkWMU1qL0
 " target="_blank"><img src="http://img.youtube.com/vi/fifkWMU1qL0/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>  
+https://youtu.be/fifkWMU1qL0
 
 ## Requirement
 * a [Roccat Vulcan Keyboard](https://de.roccat.org/Keyboards/)
